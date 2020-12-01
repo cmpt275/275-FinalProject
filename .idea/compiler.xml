@@ -8,7 +8,11 @@
         <outputRelativeToContentRoot value="true" />
         <module name="275-FinalProject" />
         <module name="275-final-project" />
+        <module name="Calendar" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Calendar" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>

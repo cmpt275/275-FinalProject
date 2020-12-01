@@ -18,7 +18,6 @@ public class Events extends CalendarProgram{
                 if (row >= 0 && col >= 0) {
                     // TODO: handle cell click ........
                     System.out.println(row +"，"+col);
-
                 }
             }
         });
