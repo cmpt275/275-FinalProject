@@ -212,8 +212,8 @@ public class CalendarProgram{
         }
     }
 
-    void insertLabel(int row, int col) {
-        eventLabel = new JLabel("test");
+    void insertLabel(int row, int col, String topic , String text) {
+        eventLabel = new JLabel(topic);
         Rectangle rect = tblCalendar.getCellRect(row, col,false);
         int x =  (int)rect.getX();
         int y =  (int)rect.getY();
@@ -228,8 +228,8 @@ public class CalendarProgram{
             tblCalendar.add(eventLabel);
             eventLabel.setBounds(x+20,y+labelCounts*20,width-20,40);
             eventLabel.setBackground(Color.black);
-            String labelTopic = "testTopic";
-            String labelNote = "test";
+            String labelTopic = topic;
+            String labelNote = text;
             Label label = new Label(labelTopic,labelNote,year,month,row,col);
             labelLists.insertLabel(label);
         }

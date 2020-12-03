@@ -35,10 +35,10 @@ public class Events extends CalendarProgram{
                 if (row >= 0 && col >= 0&& !checkbox.isSelected()) {
                     // TODO: handle cell click ........
 //                    System.out.println(row +"，"+col);
-                    insertLabel(row,col);
+                    insertLabel(row,col,"topic 1","text1");
                     //readLabel(row,col, currentYear, currentMonth,"topic", "text");
                 }else if((row >= 0 && col >= 0 && checkbox.isSelected())){
-
+                    notepanel.removeAll();
                    // int selectedyear = Integer.parseInt((String) cmbYear.getItemAt(cmbYear.getSelectedIndex()));
                    // int selectedmonth= findmonth(lblMonth.getText());
                     int con = labelLists.findLabelsCounts(row,col,currentYear,currentMonth);
@@ -52,11 +52,11 @@ public class Events extends CalendarProgram{
                         notepanel.add(tpl);
                         tpl.setBounds(10,10,100,100);
 
-                        frmMain.setVisible(true);
                        // System.out.println(i);
                     }
 
                 }
+                frmMain.setVisible(true);
 
             }
 
