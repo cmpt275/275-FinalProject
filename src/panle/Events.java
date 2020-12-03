@@ -3,6 +3,8 @@ package panle;
 import jdk.jfr.Event;
 
 import javax.swing.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class Events extends CalendarProgram{
 
@@ -22,6 +24,7 @@ public class Events extends CalendarProgram{
                     insertLabel(row,col);
                 }
             }
+
         });
 
     }

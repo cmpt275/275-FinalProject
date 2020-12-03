@@ -9,11 +9,9 @@ public class labelLists {
             this.Labels = new ArrayList<Label>();
         }
         public void insertLabel(Label label){
-            System.out.println("insertLabel col" + label.getCol());
-            System.out.println("insertLabel row" + label.getRow());
             Labels.add(label);
         }
-        public static int findLabels(int row, int col, int year, int month){
+        public static int findLabelsCounts(int row, int col, int year, int month){
             int labelCounts = 0;
 //            System.out.println("lable" +row +"，"+col);
             for(Label label:Labels){
@@ -26,11 +24,16 @@ public class labelLists {
             }
             return labelCounts;
         }
-        public void display() {
+        public static Label[] findLabels(int row, int col, int year, int month) {
+            ArrayList<Label> rtn=new ArrayList<Label>();
             for (Label label : Labels) {
-                System.out.println("col" + label.getCol());
-                System.out.println("row" + label.getRow());
-
+                if (label.getYear() == year && label.getMonth() == month && label.getCol() == col && label.getRow() == row) {
+                    rtn.add(label);
+                }
             }
+            Label[] rtnLabel=new Label[rtn.size()];
+            rtn.toArray(rtnLabel);
+            return rtnLabel;
         }
+
     }

@@ -8,7 +8,7 @@ import panle.model.Label;
 import panle.model.labelLists;
 
 public class CalendarProgram{
-    static JLabel lblMonth, lblYear;
+    static JLabel lblMonth, lblYear, eventLabel;
     static JButton btnPrev, btnNext;
     static JTable tblCalendar;
     static JComboBox cmbYear;
@@ -122,6 +122,7 @@ public class CalendarProgram{
         }
 
         //Refresh calendar
+        System.out.println("refreshCalendar1");
         refreshCalendar (realMonth, realYear); //Refresh calendar
     }
 
@@ -143,6 +144,8 @@ public class CalendarProgram{
         for (int i=0; i<6; i++){
             for (int j=0; j<7; j++){
                 mtblCalendar.setValueAt(null, i, j);
+                tblCalendar.removeAll();
+
             }
         }
 
@@ -156,14 +159,37 @@ public class CalendarProgram{
             int row = new Integer((i+som-2)/7);
             int column  =  (i+som-2)%7;
             mtblCalendar.setValueAt(i, row, column);
+            Label[] currentLabel = panle.model.labelLists.findLabels(row, column, currentYear, currentMonth);
+            if(currentLabel.length > 0){
+                System.out.println(currentLabel.length);
+                int labelCounts = 0;
+                for(Label res:currentLabel){
+                    String topic = res.getLabelTopic();
+                    eventLabel = new JLabel(topic);
+                    Rectangle rect = tblCalendar.getCellRect(row, column,false);
+                    int x =  (int)rect.getX();
+                    int y =  (int)rect.getY();
+                    double height = rect.getHeight();
+                    int width = (int)rect.getWidth() ;
+                    if(labelCounts < 4){
+                        tblCalendar.add(eventLabel);
+                        eventLabel.setBounds(x+20,y+labelCounts*20,width-20,40);
+                        eventLabel.setBackground(Color.black);
+                    }
+                    labelCounts++;
+                }
+            }
         }
 
         //Apply renderers
         tblCalendar.setDefaultRenderer(tblCalendar.getColumnClass(0), new tblCalendarRenderer());
+
+//        tblCalendar.remove(eventLabel);
     }
 
     static class tblCalendarRenderer extends DefaultTableCellRenderer{
         public Component getTableCellRendererComponent (JTable table, Object value, boolean selected, boolean focused, int row, int column){
+
             super.getTableCellRendererComponent(table, value, selected, focused, row, column);
             if (column == 0 || column == 6){ //Week-end
                 setBackground(new Color(255, 220, 220));
@@ -176,6 +202,7 @@ public class CalendarProgram{
                     setBackground(new Color(220, 220, 255));
                 }
             }
+
             setBorder(null);
             setForeground(Color.black);
             return this;
@@ -183,7 +210,7 @@ public class CalendarProgram{
     }
 
     void insertLabel(int row, int col) {
-        JLabel eventLabel = new JLabel("test");
+        eventLabel = new JLabel("test");
         Rectangle rect = tblCalendar.getCellRect(row, col,false);
         int x =  (int)rect.getX();
         int y =  (int)rect.getY();
@@ -191,13 +218,16 @@ public class CalendarProgram{
         int width = (int)rect.getWidth() ;
         int year = currentYear;
         int month = currentMonth;
-        int labelCounts = labelLists.findLabels(row, col, currentYear, currentMonth);
-        if(labelCounts <= 4){
+        int labelCounts = labelLists.findLabelsCounts(row, col, currentYear, currentMonth);
+        String labelName = "eventLabel" + String.valueOf(row)  + String.valueOf(row) + String.valueOf(labelCounts);
+        eventLabel.setName(labelName);
+        if(labelCounts < 4){
             tblCalendar.add(eventLabel);
             eventLabel.setBounds(x+20,y+labelCounts*20,width-20,40);
             eventLabel.setBackground(Color.black);
+            String labelTopic = "testTopic";
             String labelNote = "test";
-            Label label = new Label(labelNote,year,month,row,col);
+            Label label = new Label(labelTopic,labelNote,year,month,row,col);
             labelLists.insertLabel(label);
         }
     }
@@ -211,6 +241,8 @@ public class CalendarProgram{
             else{ //Back one month
                 currentMonth -= 1;
             }
+            tblCalendar.removeAll();
+            System.out.println("refreshCalendar2");
             refreshCalendar(currentMonth, currentYear);
         }
     }
@@ -223,14 +255,19 @@ public class CalendarProgram{
             else{ //Foward one month
                 currentMonth += 1;
             }
+//            tblCalendar.remove(eventLabel);
+            tblCalendar.removeAll();
+            System.out.println("refreshCalendar3");
             refreshCalendar(currentMonth, currentYear);
         }
     }
     static class cmbYear_Action implements ActionListener{
         public void actionPerformed (ActionEvent e){
+            System.out.println(e);
             if (cmbYear.getSelectedItem() != null){
                 String b = cmbYear.getSelectedItem().toString();
                 currentYear = Integer.parseInt(b);
+                System.out.println("refreshCalendar4");
                 refreshCalendar(currentMonth, currentYear);
             }
         }
