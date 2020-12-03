@@ -30,7 +30,7 @@ public class CalendarProgram{
         catch (UnsupportedLookAndFeelException e) {}
 
         //Prepare frame
-        frmMain = new JFrame ("275  Calendar"); //Create frame
+        frmMain = new JFrame ("275 Calendar"); //Create frame
         //frmMain.setSize(330, 375); //Set size to 400x400 pixels
         frmMain.setSize(990+300, 750); //Set size to 400x400 pixels
         pane = frmMain.getContentPane(); //Get content pane
