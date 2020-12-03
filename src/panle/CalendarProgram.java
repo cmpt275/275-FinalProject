@@ -3,6 +3,7 @@ import javax.swing.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 import java.util.*;
 import panle.model.Label;
 import panle.model.labelLists;
@@ -20,8 +21,9 @@ public class CalendarProgram{
     static int realYear, realMonth, realDay, currentYear, currentMonth;
     static JPanel notepanel;
     labelLists labelLists =new labelLists();
+    static filesystem fs;
     //public static void main (String args[]){
-    CalendarProgram(){
+    CalendarProgram() throws IOException {
         //Look and feel
         try {UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());}
         catch (ClassNotFoundException e) {}
@@ -121,6 +123,7 @@ public class CalendarProgram{
             cmbYear.addItem(String.valueOf(i));
         }
 
+        readFromFile();
         //Refresh calendar
         System.out.println("refreshCalendar1");
         refreshCalendar (realMonth, realYear); //Refresh calendar
@@ -271,5 +274,24 @@ public class CalendarProgram{
                 refreshCalendar(currentMonth, currentYear);
             }
         }
+    }
+
+    public void readFromFile()throws IOException {
+        fs = new filesystem();
+        fs.createFile("test.txt");
+        fs.BufferedReaderDemo("test.txt");
+        for(int i = 0; i < fs.count;i++){
+            String[] tokens = fs.content[i].split("[|]");
+            //   2020|12|1|1|topic1|text1
+            readLabel(Integer.parseInt(tokens[2]),Integer.parseInt(tokens[3]),Integer.parseInt(tokens[0]),Integer.parseInt(tokens[1]),tokens[4],tokens[5]);
+        }
+    }
+    void readLabel(int row, int col,int ye, int m,String topic, String text) {
+
+        String labelTopic = topic;
+        String labelNote = text;
+        Label label = new Label(labelTopic,labelNote,ye,m,row,col);
+        labelLists.insertLabel(label);
+        System.out.println("readLable");
     }
 }

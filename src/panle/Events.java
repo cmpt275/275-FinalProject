@@ -11,7 +11,6 @@ import java.io.IOException;
 
 public class Events extends CalendarProgram{
     static JCheckBox checkbox;
-    static filesystem fs;
     JLabel tpl;
     Events() throws IOException {
         JLabel label = new JLabel("<html><font color=red size=4><b>WARNING!</b></html>");
@@ -24,7 +23,6 @@ public class Events extends CalendarProgram{
         checkbox.setBounds(750, 25, 150, 25);
 
        // notepanel.add(label);
-        readFromFile();
         //Make frame visible
         //frmMain.setResizable(false);
        // frmMain.setVisible(true);
@@ -51,10 +49,11 @@ public class Events extends CalendarProgram{
                         String topic = lbs[i].getLabelTopic();
                         String txt = lbs[i].getLabelNotes();
                          tpl = new JLabel(topic);
-                        tpl.setBounds(0,0,100,100);
                         notepanel.add(tpl);
+                        tpl.setBounds(10,10,100,100);
+
                         frmMain.setVisible(true);
-                        System.out.println(i);
+                       // System.out.println(i);
                     }
 
                 }
@@ -75,23 +74,5 @@ public class Events extends CalendarProgram{
         return 0;
     }
 
-    public void readFromFile()throws IOException {
-        fs = new filesystem();
-        fs.createFile("test.txt");
-        fs.BufferedReaderDemo("test.txt");
-        for(int i = 0; i < fs.count;i++){
-            String[] tokens = fs.content[i].split("[|]");
-            //   2020|12|1|1|topic1|text1
-            readLabel(Integer.parseInt(tokens[2]),Integer.parseInt(tokens[3]),Integer.parseInt(tokens[0]),Integer.parseInt(tokens[1]),tokens[4],tokens[5]);
-        }
-    }
-    void readLabel(int row, int col,int ye, int m,String topic, String text) {
-
-        String labelTopic = topic;
-        String labelNote = text;
-        Label label = new Label(labelTopic,labelNote,ye,m,row,col);
-        labelLists.insertLabel(label);
-        System.out.println("readLable");
-    }
 
 }
