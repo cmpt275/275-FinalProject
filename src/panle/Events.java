@@ -15,13 +15,16 @@ public class Events extends CalendarProgram{
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 int row = tblCalendar.rowAtPoint(evt.getPoint());
                 int col = tblCalendar.columnAtPoint(evt.getPoint());
+//                int month =
                 if (row >= 0 && col >= 0) {
                     // TODO: handle cell click ........
-                    System.out.println(row +"，"+col);
-
+//                    System.out.println(row +"，"+col);
+                    insertLabel(row,col);
                 }
             }
         });
+
     }
+
 
 }

@@ -1,10 +1,11 @@
 package panle;
 import javax.swing.*;
-import javax.swing.event.*;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
+import panle.model.Label;
+import panle.model.labelLists;
 
 public class CalendarProgram{
     static JLabel lblMonth, lblYear;
@@ -18,7 +19,7 @@ public class CalendarProgram{
     static JPanel pnlCalendar;
     static int realYear, realMonth, realDay, currentYear, currentMonth;
     static JPanel notepanel;
-
+    labelLists labelLists =new labelLists();
     //public static void main (String args[]){
     CalendarProgram(){
         //Look and feel
@@ -178,6 +179,26 @@ public class CalendarProgram{
             setBorder(null);
             setForeground(Color.black);
             return this;
+        }
+    }
+
+    void insertLabel(int row, int col) {
+        JLabel eventLabel = new JLabel("test");
+        Rectangle rect = tblCalendar.getCellRect(row, col,false);
+        int x =  (int)rect.getX();
+        int y =  (int)rect.getY();
+        double height = rect.getHeight();
+        int width = (int)rect.getWidth() ;
+        int year = currentYear;
+        int month = currentMonth;
+        int labelCounts = labelLists.findLabels(row, col, currentYear, currentMonth);
+        if(labelCounts <= 4){
+            tblCalendar.add(eventLabel);
+            eventLabel.setBounds(x+20,y+labelCounts*20,width-20,40);
+            eventLabel.setBackground(Color.black);
+            String labelNote = "test";
+            Label label = new Label(labelNote,year,month,row,col);
+            labelLists.insertLabel(label);
         }
     }
 
