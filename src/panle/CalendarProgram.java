@@ -153,6 +153,8 @@ public class CalendarProgram{
             for (int j=0; j<7; j++){
                 mtblCalendar.setValueAt(null, i, j);
                 tblCalendar.removeAll();
+                tblCalendar.repaint();
+
 
             }
         }
@@ -218,27 +220,32 @@ public class CalendarProgram{
     }
 
     void insertLabel(int row, int col) {
+
         labelpanel = new JPanel(null);
         labelpanel.setBorder(BorderFactory.createTitledBorder("Add Event"));
-        tblCalendar.add(labelpanel);
-        labelpanel.setBounds(250,100,400,400);
-        labelpanel.setBackground(Color.white);
+        notepanel.add(labelpanel);
+
+        labelpanel.setBounds(0,0,300,670);
+
+//        labelpanel.setBounds(250,100,400,400);
+
 
         topicLabel = new JLabel("Event Topic:");
-        topicLabel.setBounds(20,50,200,25);
+        topicLabel.setBounds(20,50,150,25);
         labelpanel.add(topicLabel);
         topicTextFiled = new JTextField();
-        topicTextFiled.setBounds(150,50,230,25);
+        topicTextFiled.setBounds(100,50,180,25);
+        topicTextFiled.setBackground(Color.white);
         labelpanel.add(topicTextFiled);
 
 
 
-        descriptionLabel = new JLabel("Event Description:");
-        descriptionLabel.setBounds(20,150,200,25);
+        descriptionLabel = new JLabel("Description:");
+        descriptionLabel.setBounds(20,150,150,25);
         labelpanel.add(descriptionLabel);
 
         descriptionTextArea = new JTextArea();
-        descriptionTextArea.setBounds(150,150,230,180);
+        descriptionTextArea.setBounds(100,150,180,180);
 
         labelpanel.add(descriptionTextArea);
         Border border = BorderFactory.createLineBorder(Color.lightGray);
@@ -246,12 +253,12 @@ public class CalendarProgram{
                 BorderFactory.createEmptyBorder(10, 10, 10, 10)));
 
         JButton confirmButton = new JButton("Confirm");
-        confirmButton.setBounds(100, 350,80,25);
+        confirmButton.setBounds(50, 400,80,25);
         labelpanel.add(confirmButton);
 
 
         JButton cancelButton = new JButton("Cancel");
-        cancelButton.setBounds(230, 350,80,25);
+        cancelButton.setBounds(180, 400,80,25);
         labelpanel.add(cancelButton);
             confirmButton.addActionListener(new ActionListener() {
                 @Override
@@ -280,6 +287,7 @@ public class CalendarProgram{
                             labelLists.insertLabel(label);
                         }
                         labelpanel.setVisible(false);
+
                     }
                     try {
                         writeToFile();
@@ -309,7 +317,7 @@ public class CalendarProgram{
                 currentMonth -= 1;
             }
             tblCalendar.removeAll();
-            System.out.println("refreshCalendar2");
+            tblCalendar.repaint();
             refreshCalendar(currentMonth, currentYear);
         }
     }
@@ -324,7 +332,7 @@ public class CalendarProgram{
             }
 //            tblCalendar.remove(eventLabel);
             tblCalendar.removeAll();
-            System.out.println("refreshCalendar3");
+            tblCalendar.repaint();
             refreshCalendar(currentMonth, currentYear);
         }
     }
@@ -346,7 +354,6 @@ public class CalendarProgram{
         fs.BufferedReaderDemo(path);
         for(int i = 0; i < fs.count;i++){
             String[] tokens = fs.content[i].split("[|]");
-            //   2020|12|1|1|topic1|text1
             readLabel(Integer.parseInt(tokens[2]),Integer.parseInt(tokens[3]),Integer.parseInt(tokens[0]),Integer.parseInt(tokens[1]),tokens[4],tokens[5]);
         }
     }
@@ -356,7 +363,6 @@ public class CalendarProgram{
         String labelNote = text;
         Label label = new Label(labelTopic,labelNote,ye,m,row,col);
         labelLists.insertLabel(label);
-        //System.out.println("readLable");
     }
 
     void writeToFile() throws IOException {

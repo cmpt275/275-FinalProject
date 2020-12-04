@@ -52,7 +52,12 @@ public class Events extends CalendarProgram{
                         notepanel.add(tpl);
                         tpl.setBounds(10,10+i*162,280,150);
                         tpl.setBorder(BorderFactory.createTitledBorder("<html><font color=blue size=5><h>"+topic+"</h></html>\""));
-                       // System.out.println(i);
+                        JButton deleteButton = new JButton("Delete Event");
+                        notepanel.add(deleteButton);
+                        deleteButton.setBounds(125,125+i*162,150,25);
+
+
+                        // System.out.println(i);
                     }
 
                 }
