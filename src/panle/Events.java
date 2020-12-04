@@ -34,15 +34,13 @@ public class Events extends CalendarProgram{
                 int col = tblCalendar.columnAtPoint(evt.getPoint());
                 if (row >= 0 && col >= 0&& checkbox.isSelected()) {
                     // TODO: handle cell click ........
-//                    System.out.println(row +"，"+col);
+//                    //System.out.println(row +"，"+col);
                     insertLabel(row,col);
                     //readLabel(row,col, currentYear, currentMonth,"topic", "text");
                 }else if((row >= 0 && col >= 0 && !checkbox.isSelected())){
 
                     notepanel.removeAll();
                     notepanel.repaint();
-                   // int selectedyear = Integer.parseInt((String) cmbYear.getItemAt(cmbYear.getSelectedIndex()));
-                   // int selectedmonth= findmonth(lblMonth.getText());
                     int con = labelLists.findLabelsCounts(row,col,currentYear,currentMonth);
                     Label[] lbs =  labelLists.findLabels(row,col,currentYear,currentMonth);
                     //System.out.println(selectedmonth);
