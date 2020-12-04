@@ -364,7 +364,12 @@ public class CalendarProgram{
 
         fs.count = 0;
         for (Label label : labelLists.getLabels()) {
-                String txt = label.getYear()+"|"+label.getMonth()+"|"+label.getRow()+"|"+label.getCol()+"|"+label.getLabelTopic()+"|"+label.getLabelNotes();
+               String[] tokens1 = label.getLabelNotes().split("[\n]");
+               String text ="";
+              for(int i = 0;i<tokens1.length;i++){
+                text = text + " "+tokens1[i];
+               }
+                String txt = label.getYear()+"|"+label.getMonth()+"|"+label.getRow()+"|"+label.getCol()+"|"+label.getLabelTopic()+"|"+text;
                 fs.content[fs.count] = txt;
                 fs.count++;
 
