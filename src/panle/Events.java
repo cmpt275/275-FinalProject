@@ -32,12 +32,12 @@ public class Events extends CalendarProgram{
                 int row = tblCalendar.rowAtPoint(evt.getPoint());
                 int col = tblCalendar.columnAtPoint(evt.getPoint());
 //                int month =
-                if (row >= 0 && col >= 0&& !checkbox.isSelected()) {
+                if (row >= 0 && col >= 0&& checkbox.isSelected()) {
                     // TODO: handle cell click ........
 //                    System.out.println(row +"，"+col);
-                    insertLabel(row,col,"topic 1","text1");
+                    insertLabel(row,col);
                     //readLabel(row,col, currentYear, currentMonth,"topic", "text");
-                }else if((row >= 0 && col >= 0 && checkbox.isSelected())){
+                }else if((row >= 0 && col >= 0 && !checkbox.isSelected())){
                     notepanel.removeAll();
                    // int selectedyear = Integer.parseInt((String) cmbYear.getItemAt(cmbYear.getSelectedIndex()));
                    // int selectedmonth= findmonth(lblMonth.getText());
