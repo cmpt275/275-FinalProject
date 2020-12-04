@@ -281,6 +281,11 @@ public class CalendarProgram{
                         }
                         labelpanel.setVisible(false);
                     }
+                    try {
+                        writeToFile();
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
                 }
             });
 //        }
@@ -352,5 +357,18 @@ public class CalendarProgram{
         Label label = new Label(labelTopic,labelNote,ye,m,row,col);
         labelLists.insertLabel(label);
         System.out.println("readLable");
+    }
+
+    void writeToFile() throws IOException {
+         //2020|11|1|3|t3|x3
+
+        fs.count = 0;
+        for (Label label : labelLists.getLabels()) {
+                String txt = label.getYear()+"|"+label.getMonth()+"|"+label.getRow()+"|"+label.getCol()+"|"+label.getLabelTopic()+"|"+label.getLabelNotes();
+                fs.content[fs.count] = txt;
+                fs.count++;
+
+        }
+        fs.BufferedWriterDemo("test.txt");
     }
 }
