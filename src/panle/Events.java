@@ -35,9 +35,14 @@ public class Events extends CalendarProgram{
                 if (row >= 0 && col >= 0&& checkbox.isSelected()) {
                     // TODO: handle cell click ........
 //                    //System.out.println(row +"，"+col);
+                    labelpanel.setVisible(true);
+                    labelpanel.repaint();
+                    notepanel.setVisible(false);
                     insertLabel(row,col);
                     //readLabel(row,col, currentYear, currentMonth,"topic", "text");
                 }else if((row >= 0 && col >= 0 && !checkbox.isSelected())){
+                    notepanel.setVisible(true);
+                    labelpanel.setVisible(false);
 
                     notepanel.removeAll();
                     notepanel.repaint();

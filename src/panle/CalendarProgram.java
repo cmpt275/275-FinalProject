@@ -10,7 +10,7 @@ import panle.model.Label;
 import panle.model.labelLists;
 
 public class CalendarProgram{
-    static JLabel lblMonth, lblYear, eventLabel,topicLabel,descriptionLabel;
+    static JLabel lblMonth, lblYear, eventLabel,topicLabel,descriptionLabel,headLabel;
     static JTextField topicTextFiled;
     static JTextArea descriptionTextArea;
     static JButton btnPrev, btnNext;
@@ -25,6 +25,7 @@ public class CalendarProgram{
     static JPanel notepanel;
     static JPanel labelpanel;
     static String path = "data";
+    static JButton cancelButton, confirmButton;
     labelLists labelLists =new labelLists();
     static filesystem fs;
     //public static void main (String args[]){
@@ -87,11 +88,15 @@ public class CalendarProgram{
         //stblCalendar.setBounds(10, 50, 300, 250);
         stblCalendar.setBounds(10, 50, 300+640, 250+335);
         notepanel.setBounds(961,0,300,670);
-
+        labelpanel = new JPanel(null);
+        labelpanel.setBorder(BorderFactory.createTitledBorder("Add Event"));
+        frmMain.add(labelpanel);
+        labelpanel.setBounds(961,0,300,670);
         //Make frame visible
         frmMain.setResizable(false);
         frmMain.setVisible(true);
-
+        setLabelPanel();
+        labelpanel.setVisible(false);
         //Get real month/year
         GregorianCalendar cal = new GregorianCalendar(); //Create calendar
         realDay = cal.get(GregorianCalendar.DAY_OF_MONTH); //Get day
@@ -133,6 +138,37 @@ public class CalendarProgram{
         System.out.println("refreshCalendar1");
         refreshCalendar (realMonth, realYear); //Refresh calendar
     }
+    public void setLabelPanel(){
+
+        topicLabel = new JLabel("Event Topic:");
+        topicLabel.setBounds(20,50,150,25);
+        labelpanel.add(topicLabel);
+        topicTextFiled = new JTextField();
+        topicTextFiled.setBounds(100,50,180,25);
+        topicTextFiled.setBackground(Color.white);
+        labelpanel.add(topicTextFiled);
+
+        descriptionLabel = new JLabel("Description:");
+        descriptionLabel.setBounds(20,150,150,25);
+        labelpanel.add(descriptionLabel);
+
+        descriptionTextArea = new JTextArea();
+        descriptionTextArea.setBounds(100,150,180,180);
+
+        labelpanel.add(descriptionTextArea);
+        Border border = BorderFactory.createLineBorder(Color.lightGray);
+        descriptionTextArea.setBorder(BorderFactory.createCompoundBorder(border,
+                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+
+        confirmButton = new JButton("Confirm");
+        confirmButton.setBounds(50, 400,80,25);
+        labelpanel.add(confirmButton);
+
+
+        cancelButton = new JButton("Cancel");
+        cancelButton.setBounds(180, 400,80,25);
+        labelpanel.add(cancelButton);
+    }
 
     public static void refreshCalendar(int month, int year){
         //Variables
@@ -158,7 +194,6 @@ public class CalendarProgram{
 
             }
         }
-
         //Get first day of month and number of days
         GregorianCalendar cal = new GregorianCalendar(year, month, 1);
         nod = cal.getActualMaximum(GregorianCalendar.DAY_OF_MONTH);
@@ -221,45 +256,6 @@ public class CalendarProgram{
 
     void insertLabel(int row, int col) {
 
-        labelpanel = new JPanel(null);
-        labelpanel.setBorder(BorderFactory.createTitledBorder("Add Event"));
-        notepanel.add(labelpanel);
-
-        labelpanel.setBounds(0,0,300,670);
-
-//        labelpanel.setBounds(250,100,400,400);
-
-
-        topicLabel = new JLabel("Event Topic:");
-        topicLabel.setBounds(20,50,150,25);
-        labelpanel.add(topicLabel);
-        topicTextFiled = new JTextField();
-        topicTextFiled.setBounds(100,50,180,25);
-        topicTextFiled.setBackground(Color.white);
-        labelpanel.add(topicTextFiled);
-
-
-
-        descriptionLabel = new JLabel("Description:");
-        descriptionLabel.setBounds(20,150,150,25);
-        labelpanel.add(descriptionLabel);
-
-        descriptionTextArea = new JTextArea();
-        descriptionTextArea.setBounds(100,150,180,180);
-
-        labelpanel.add(descriptionTextArea);
-        Border border = BorderFactory.createLineBorder(Color.lightGray);
-        descriptionTextArea.setBorder(BorderFactory.createCompoundBorder(border,
-                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
-
-        JButton confirmButton = new JButton("Confirm");
-        confirmButton.setBounds(50, 400,80,25);
-        labelpanel.add(confirmButton);
-
-
-        JButton cancelButton = new JButton("Cancel");
-        cancelButton.setBounds(180, 400,80,25);
-        labelpanel.add(cancelButton);
             confirmButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
@@ -275,8 +271,7 @@ public class CalendarProgram{
                         int year = currentYear;
                         int month = currentMonth;
                         int labelCounts = labelLists.findLabelsCounts(row, col, currentYear, currentMonth);
-                        String labelName = "eventLabel" + String.valueOf(row) + String.valueOf(row) + String.valueOf(labelCounts);
-                        eventLabel.setName(labelName);
+
                         if (labelCounts < 4) {
                             tblCalendar.add(eventLabel);
                             eventLabel.setBounds(x + 20, y + labelCounts * 20, width - 20, 40);
@@ -286,8 +281,9 @@ public class CalendarProgram{
                             Label label = new Label(labelTopic, labelNote, year, month, row, col);
                             labelLists.insertLabel(label);
                         }
-                        labelpanel.setVisible(false);
-
+                        labelpanel.remove(headLabel);
+                        descriptionTextArea.setText("");
+                        topicTextFiled.setText("");
                     }
                     try {
                         writeToFile();
@@ -300,7 +296,11 @@ public class CalendarProgram{
         cancelButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                descriptionTextArea.setText("");
+                labelpanel.remove(headLabel);
+                topicTextFiled.setText("");
                 labelpanel.setVisible(false);
+                notepanel.setVisible(true);
             }
         });
         frmMain.setVisible(true);
