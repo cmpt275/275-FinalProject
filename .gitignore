@@ -2,3 +2,5 @@
 target/classes/panle/CalendarProgram$2.class
 *.class
 target/classes/panle/Events$1.class
+*.class
+*.class
