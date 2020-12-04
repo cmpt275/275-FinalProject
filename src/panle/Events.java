@@ -11,7 +11,8 @@ import java.io.IOException;
 
 public class Events extends CalendarProgram{
     static JCheckBox checkbox;
-    JLabel tpl;
+    static JLabel tpl;
+    JLabel cpl;
     Events() throws IOException {
         JLabel label = new JLabel("<html><font color=red size=4><b>WARNING!</b></html>");
         label.setBounds(0,0,100,100);
@@ -19,7 +20,7 @@ public class Events extends CalendarProgram{
         checkbox = new JCheckBox();
         pnlCalendar.add(checkbox);
         checkbox.setText("Enable Add Events");
-        checkbox.setSelected(true);
+        checkbox.setSelected(false);
         checkbox.setBounds(750, 25, 150, 25);
 
        // notepanel.add(label);
@@ -38,7 +39,9 @@ public class Events extends CalendarProgram{
                     insertLabel(row,col);
                     //readLabel(row,col, currentYear, currentMonth,"topic", "text");
                 }else if((row >= 0 && col >= 0 && !checkbox.isSelected())){
+
                     notepanel.removeAll();
+                    notepanel.setVisible(true);
                    // int selectedyear = Integer.parseInt((String) cmbYear.getItemAt(cmbYear.getSelectedIndex()));
                    // int selectedmonth= findmonth(lblMonth.getText());
                     int con = labelLists.findLabelsCounts(row,col,currentYear,currentMonth);
@@ -48,10 +51,9 @@ public class Events extends CalendarProgram{
                     for(int i = 0;i<con;i++){
                         String topic = lbs[i].getLabelTopic();
                         String txt = lbs[i].getLabelNotes();
-                         tpl = new JLabel(topic);
+                        tpl = new JLabel("<html><font color=blue size=5><h>"+topic+"</h><font color=black size=4><p>\""+txt+"\"</p></html>\"");
                         notepanel.add(tpl);
-                        tpl.setBounds(10,10,100,100);
-
+                        tpl.setBounds(10,10+i*162,280,150);
                        // System.out.println(i);
                     }
 
