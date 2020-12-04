@@ -36,7 +36,6 @@ public class Events extends CalendarProgram{
                     // TODO: handle cell click ........
 //                    //System.out.println(row +"，"+col);
                     labelpanel.setVisible(true);
-                    labelpanel.repaint();
                     notepanel.setVisible(false);
                     insertLabel(row,col);
                     //readLabel(row,col, currentYear, currentMonth,"topic", "text");

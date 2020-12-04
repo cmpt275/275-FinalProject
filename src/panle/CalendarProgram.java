@@ -95,6 +95,7 @@ public class CalendarProgram{
         //Make frame visible
         frmMain.setResizable(false);
         frmMain.setVisible(true);
+
         setLabelPanel();
         labelpanel.setVisible(false);
         //Get real month/year
@@ -297,7 +298,6 @@ public class CalendarProgram{
             @Override
             public void actionPerformed(ActionEvent e) {
                 descriptionTextArea.setText("");
-                labelpanel.remove(headLabel);
                 topicTextFiled.setText("");
                 labelpanel.setVisible(false);
                 notepanel.setVisible(true);
