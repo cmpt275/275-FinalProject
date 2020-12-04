@@ -24,7 +24,7 @@ public class CalendarProgram{
     static int realYear, realMonth, realDay, currentYear, currentMonth;
     static JPanel notepanel;
     static JPanel labelpanel;
-
+    static String path = "data";
     labelLists labelLists =new labelLists();
     static filesystem fs;
     //public static void main (String args[]){
@@ -169,7 +169,7 @@ public class CalendarProgram{
             mtblCalendar.setValueAt(i, row, column);
             Label[] currentLabel = panle.model.labelLists.findLabels(row, column, currentYear, currentMonth);
             if(currentLabel.length > 0){
-                System.out.println(currentLabel.length);
+                //System.out.println(currentLabel.length);
                 int labelCounts = 0;
                 for(Label res:currentLabel){
                     String topic = res.getLabelTopic();
@@ -342,8 +342,8 @@ public class CalendarProgram{
 
     public void readFromFile()throws IOException {
         fs = new filesystem();
-        fs.createFile("test.txt");
-        fs.BufferedReaderDemo("test.txt");
+        fs.createFile(path);
+        fs.BufferedReaderDemo(path);
         for(int i = 0; i < fs.count;i++){
             String[] tokens = fs.content[i].split("[|]");
             //   2020|12|1|1|topic1|text1
@@ -356,7 +356,7 @@ public class CalendarProgram{
         String labelNote = text;
         Label label = new Label(labelTopic,labelNote,ye,m,row,col);
         labelLists.insertLabel(label);
-        System.out.println("readLable");
+        //System.out.println("readLable");
     }
 
     void writeToFile() throws IOException {
@@ -369,6 +369,6 @@ public class CalendarProgram{
                 fs.count++;
 
         }
-        fs.BufferedWriterDemo("test.txt");
+        fs.BufferedWriterDemo(path);
     }
 }
