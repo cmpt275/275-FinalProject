@@ -7,7 +7,11 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
+import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -70,7 +74,7 @@ public class weatherForecast {
         weather.setIcon((String) weather_details.get("icon"));
         weather.setCode((Long) weather_details.get("code"));
         todayWeatherForecast.setWeather(weather);
-
+        todayWeatherForecast.setIconImage(getWeatherIcon(todayWeatherForecast.getWeather().getIcon()));
         return todayWeatherForecast;
     }
 
@@ -97,6 +101,7 @@ public class weatherForecast {
             weather.setIcon((String) weather_details.get("icon"));
             weather.setCode((Long) weather_details.get("code"));
             fiveDaysForecast.setWeather(weather);
+            fiveDaysForecast.setIconImage(getWeatherIcon(fiveDaysForecast.getWeather().getIcon()));
             fiveDaysForecastsList.add(fiveDaysForecast);
             i = i + 8;
         }
@@ -107,8 +112,30 @@ public class weatherForecast {
         DateTime dt = DateTime.parse(dateTime, formatter);*/
 
         return fiveDaysForecastsList;
+    }
+
+    public static Image getWeatherIcon(String icon) throws IOException {
+        String iconSubString = icon.substring(1);
+        System.out.println(iconSubString);
+
+        Image image = null;
+        try {
+            URL url = new URL("http://openweathermap.org/img/wn/"+iconSubString+"@2x.png");
+            image = ImageIO.read(url);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+
+/*        JFrame frame = new JFrame();
+        frame.setSize(300, 300);
+        JLabel label = new JLabel(new ImageIcon(image));
+        frame.add(label);
+        frame.setVisible(true);*/
+
+        return image;
 
     }
+
 
 
 }
