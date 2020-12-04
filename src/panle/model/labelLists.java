@@ -36,4 +36,14 @@ public class labelLists {
             return rtnLabel;
         }
 
+        public static Label[] getLabels(){
+            ArrayList<Label> rtn=new ArrayList<Label>();
+            for (Label label : Labels) {
+                    rtn.add(label);
+            }
+            Label[] rtnLabel=new Label[rtn.size()];
+            rtn.toArray(rtnLabel);
+            return rtnLabel;
+        }
+
     }
