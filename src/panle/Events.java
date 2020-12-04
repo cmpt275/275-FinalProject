@@ -37,12 +37,12 @@ public class Events extends CalendarProgram{
 //                    //System.out.println(row +"，"+col);
                     labelpanel.setVisible(true);
                     notepanel.setVisible(false);
+                    labelpanel.repaint();
                     insertLabel(row,col);
                     //readLabel(row,col, currentYear, currentMonth,"topic", "text");
                 }else if((row >= 0 && col >= 0 && !checkbox.isSelected())){
                     notepanel.setVisible(true);
                     labelpanel.setVisible(false);
-
                     notepanel.removeAll();
                     notepanel.repaint();
                     int con = labelLists.findLabelsCounts(row,col,currentYear,currentMonth);

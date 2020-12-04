@@ -282,7 +282,6 @@ public class CalendarProgram{
                             Label label = new Label(labelTopic, labelNote, year, month, row, col);
                             labelLists.insertLabel(label);
                         }
-                        labelpanel.remove(headLabel);
                         descriptionTextArea.setText("");
                         topicTextFiled.setText("");
                     }
