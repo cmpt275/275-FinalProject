@@ -1,20 +1,121 @@
 package entity;
 
 public class TodayWeatherForecast {
-    public int relative_humidity;
-    public int lon;
-    public double lat;
+    public long relative_humidity;
     public double pressure;
-    public String country_code;
-    public int visibility;
-    public int solar_rad;
+    public long visibility;
+    public long solar_rad;
     public String city_name;
     public double wind_speed;
-    public String wind_cdir_full;
+    public String wind_cdir;
     public String sunset;
     public String sunrise;
     public Weather weather;
     public String datetime;
-    public double temp;
-    public double apparent_temp;
+    public String temp;
+    public String app_temp;
+
+    public long getRelative_humidity() {
+        return relative_humidity;
+    }
+
+    public void setRelative_humidity(long relative_humidity) {
+        this.relative_humidity = relative_humidity;
+    }
+
+    public double getPressure() {
+        return pressure;
+    }
+
+    public void setPressure(double pressure) {
+        this.pressure = pressure;
+    }
+
+    public long getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(long visibility) {
+        this.visibility = visibility;
+    }
+
+    public long getSolar_rad() {
+        return solar_rad;
+    }
+
+    public void setSolar_rad(long solar_rad) {
+        this.solar_rad = solar_rad;
+    }
+
+    public String getCity_name() {
+        return city_name;
+    }
+
+    public void setCity_name(String city_name) {
+        this.city_name = city_name;
+    }
+
+    public double getWind_speed() {
+        return wind_speed;
+    }
+
+    public void setWind_speed(double wind_speed) {
+        this.wind_speed = wind_speed;
+    }
+
+    public String getWind_cdir() {
+        return wind_cdir;
+    }
+
+    public void setWind_cdir(String wind_cdir) {
+        this.wind_cdir = wind_cdir;
+    }
+
+    public String getSunset() {
+        return sunset;
+    }
+
+    public void setSunset(String sunset) {
+        this.sunset = sunset;
+    }
+
+    public String getSunrise() {
+        return sunrise;
+    }
+
+    public void setSunrise(String sunrise) {
+        this.sunrise = sunrise;
+    }
+
+    public Weather getWeather() {
+        return weather;
+    }
+
+    public void setWeather(Weather weather) {
+        this.weather = weather;
+    }
+
+    public String getDatetime() {
+        return datetime;
+    }
+
+    public void setDatetime(String datetime) {
+        this.datetime = datetime;
+    }
+
+    public String getTemp() {
+        return temp;
+    }
+
+    public void setTemp(String temp) {
+        this.temp = temp;
+    }
+
+    public String getApp_temp() {
+        return app_temp;
+    }
+
+    public void setApp_temp(String app_temp) {
+        this.app_temp = app_temp;
+    }
 }
