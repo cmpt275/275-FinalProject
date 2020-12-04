@@ -1,5 +1,7 @@
 package entity;
 
+import java.awt.*;
+
 public class TodayWeatherForecast {
     public long relative_humidity;
     public double pressure;
@@ -14,6 +16,15 @@ public class TodayWeatherForecast {
     public String datetime;
     public String temp;
     public String app_temp;
+    public Image iconImage;
+
+    public Image getIconImage() {
+        return iconImage;
+    }
+
+    public void setIconImage(Image iconImage) {
+        this.iconImage = iconImage;
+    }
 
     public long getRelative_humidity() {
         return relative_humidity;
