@@ -4,7 +4,7 @@ package panle.model;
 public class Label {
 
     private  String labelTopic;
-    private static String labelNotes;
+    private  String labelNotes;
     private int year;
     private int month;
     private int row;

@@ -11,7 +11,8 @@ import java.io.IOException;
 
 public class Events extends CalendarProgram{
     static JCheckBox checkbox;
-    JLabel tpl;
+    static JLabel tpl;
+    JLabel cpl;
     Events() throws IOException {
         JLabel label = new JLabel("<html><font color=red size=4><b>WARNING!</b></html>");
         label.setBounds(0,0,100,100);
@@ -19,7 +20,7 @@ public class Events extends CalendarProgram{
         checkbox = new JCheckBox();
         pnlCalendar.add(checkbox);
         checkbox.setText("Enable Add Events");
-        checkbox.setSelected(true);
+        checkbox.setSelected(false);
         checkbox.setBounds(750, 25, 150, 25);
 
        // notepanel.add(label);
@@ -31,16 +32,15 @@ public class Events extends CalendarProgram{
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 int row = tblCalendar.rowAtPoint(evt.getPoint());
                 int col = tblCalendar.columnAtPoint(evt.getPoint());
-//                int month =
-                if (row >= 0 && col >= 0&& !checkbox.isSelected()) {
+                if (row >= 0 && col >= 0&& checkbox.isSelected()) {
                     // TODO: handle cell click ........
-//                    System.out.println(row +"，"+col);
-                    insertLabel(row,col,"topic 1","text1");
+//                    //System.out.println(row +"，"+col);
+                    insertLabel(row,col);
                     //readLabel(row,col, currentYear, currentMonth,"topic", "text");
-                }else if((row >= 0 && col >= 0 && checkbox.isSelected())){
+                }else if((row >= 0 && col >= 0 && !checkbox.isSelected())){
+
                     notepanel.removeAll();
-                   // int selectedyear = Integer.parseInt((String) cmbYear.getItemAt(cmbYear.getSelectedIndex()));
-                   // int selectedmonth= findmonth(lblMonth.getText());
+                    notepanel.repaint();
                     int con = labelLists.findLabelsCounts(row,col,currentYear,currentMonth);
                     Label[] lbs =  labelLists.findLabels(row,col,currentYear,currentMonth);
                     //System.out.println(selectedmonth);
@@ -48,10 +48,10 @@ public class Events extends CalendarProgram{
                     for(int i = 0;i<con;i++){
                         String topic = lbs[i].getLabelTopic();
                         String txt = lbs[i].getLabelNotes();
-                         tpl = new JLabel(topic);
+                        JLabel tpl = new JLabel("<html><font color=black size=4><body><p>"+txt+"</p></body></html>\"");
                         notepanel.add(tpl);
-                        tpl.setBounds(10,10,100,100);
-
+                        tpl.setBounds(10,10+i*162,280,150);
+                        tpl.setBorder(BorderFactory.createTitledBorder("<html><font color=blue size=5><h>"+topic+"</h></html>\""));
                        // System.out.println(i);
                     }
 

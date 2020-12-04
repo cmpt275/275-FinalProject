@@ -1,3 +1,0 @@
-2020|11|1|1|topic1|text1
-2020|10|1|1|topic2|text2
-2020|11|1|2|topic3|text3

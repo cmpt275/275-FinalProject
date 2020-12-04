@@ -1,5 +1,6 @@
 package panle;
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.table.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -9,7 +10,9 @@ import panle.model.Label;
 import panle.model.labelLists;
 
 public class CalendarProgram{
-    static JLabel lblMonth, lblYear, eventLabel;
+    static JLabel lblMonth, lblYear, eventLabel,topicLabel,descriptionLabel;
+    static JTextField topicTextFiled;
+    static JTextArea descriptionTextArea;
     static JButton btnPrev, btnNext;
     static JTable tblCalendar;
     static JComboBox cmbYear;
@@ -20,6 +23,8 @@ public class CalendarProgram{
     static JPanel pnlCalendar;
     static int realYear, realMonth, realDay, currentYear, currentMonth;
     static JPanel notepanel;
+    static JPanel labelpanel;
+    static String path = "data";
     labelLists labelLists =new labelLists();
     static filesystem fs;
     //public static void main (String args[]){
@@ -164,7 +169,7 @@ public class CalendarProgram{
             mtblCalendar.setValueAt(i, row, column);
             Label[] currentLabel = panle.model.labelLists.findLabels(row, column, currentYear, currentMonth);
             if(currentLabel.length > 0){
-                System.out.println(currentLabel.length);
+                //System.out.println(currentLabel.length);
                 int labelCounts = 0;
                 for(Label res:currentLabel){
                     String topic = res.getLabelTopic();
@@ -212,28 +217,87 @@ public class CalendarProgram{
         }
     }
 
-    void insertLabel(int row, int col, String topic , String text) {
-        eventLabel = new JLabel(topic);
-        Rectangle rect = tblCalendar.getCellRect(row, col,false);
-        int x =  (int)rect.getX();
-        int y =  (int)rect.getY();
-        double height = rect.getHeight();
-        int width = (int)rect.getWidth() ;
-        int year = currentYear;
-        int month = currentMonth;
-        int labelCounts = labelLists.findLabelsCounts(row, col, currentYear, currentMonth);
-        String labelName = "eventLabel" + String.valueOf(row)  + String.valueOf(row) + String.valueOf(labelCounts);
-        eventLabel.setName(labelName);
-        if(labelCounts < 4){
-            tblCalendar.add(eventLabel);
-            eventLabel.setBounds(x+20,y+labelCounts*20,width-20,40);
-            eventLabel.setBackground(Color.black);
-            String labelTopic = topic;
-            String labelNote = text;
-            Label label = new Label(labelTopic,labelNote,year,month,row,col);
-            labelLists.insertLabel(label);
-        }
+    void insertLabel(int row, int col) {
+        labelpanel = new JPanel(null);
+        labelpanel.setBorder(BorderFactory.createTitledBorder("Add Event"));
+        tblCalendar.add(labelpanel);
+        labelpanel.setBounds(250,100,400,400);
+        labelpanel.setBackground(Color.white);
+
+        topicLabel = new JLabel("Event Topic:");
+        topicLabel.setBounds(20,50,200,25);
+        labelpanel.add(topicLabel);
+        topicTextFiled = new JTextField();
+        topicTextFiled.setBounds(150,50,230,25);
+        labelpanel.add(topicTextFiled);
+
+
+
+        descriptionLabel = new JLabel("Event Description:");
+        descriptionLabel.setBounds(20,150,200,25);
+        labelpanel.add(descriptionLabel);
+
+        descriptionTextArea = new JTextArea();
+        descriptionTextArea.setBounds(150,150,230,180);
+
+        labelpanel.add(descriptionTextArea);
+        Border border = BorderFactory.createLineBorder(Color.lightGray);
+        descriptionTextArea.setBorder(BorderFactory.createCompoundBorder(border,
+                BorderFactory.createEmptyBorder(10, 10, 10, 10)));
+
+        JButton confirmButton = new JButton("Confirm");
+        confirmButton.setBounds(100, 350,80,25);
+        labelpanel.add(confirmButton);
+
+
+        JButton cancelButton = new JButton("Cancel");
+        cancelButton.setBounds(230, 350,80,25);
+        labelpanel.add(cancelButton);
+            confirmButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    String topic = topicTextFiled.getText();
+                    String text = descriptionTextArea.getText();
+                    if (!topic.isEmpty() && !text.isEmpty()) {
+                        eventLabel = new JLabel(topic);
+                        Rectangle rect = tblCalendar.getCellRect(row, col, false);
+                        int x = (int) rect.getX();
+                        int y = (int) rect.getY();
+                        double height = rect.getHeight();
+                        int width = (int) rect.getWidth();
+                        int year = currentYear;
+                        int month = currentMonth;
+                        int labelCounts = labelLists.findLabelsCounts(row, col, currentYear, currentMonth);
+                        String labelName = "eventLabel" + String.valueOf(row) + String.valueOf(row) + String.valueOf(labelCounts);
+                        eventLabel.setName(labelName);
+                        if (labelCounts < 4) {
+                            tblCalendar.add(eventLabel);
+                            eventLabel.setBounds(x + 20, y + labelCounts * 20, width - 20, 40);
+                            eventLabel.setBackground(Color.black);
+                            String labelTopic = topic;
+                            String labelNote = text;
+                            Label label = new Label(labelTopic, labelNote, year, month, row, col);
+                            labelLists.insertLabel(label);
+                        }
+                        labelpanel.setVisible(false);
+                    }
+                    try {
+                        writeToFile();
+                    } catch (IOException ioException) {
+                        ioException.printStackTrace();
+                    }
+                }
+            });
+//        }
+        cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                labelpanel.setVisible(false);
+            }
+        });
+        frmMain.setVisible(true);
     }
+
 
     static class btnPrev_Action implements ActionListener{
         public void actionPerformed (ActionEvent e){
@@ -278,8 +342,8 @@ public class CalendarProgram{
 
     public void readFromFile()throws IOException {
         fs = new filesystem();
-        fs.createFile("test.txt");
-        fs.BufferedReaderDemo("test.txt");
+        fs.createFile(path);
+        fs.BufferedReaderDemo(path);
         for(int i = 0; i < fs.count;i++){
             String[] tokens = fs.content[i].split("[|]");
             //   2020|12|1|1|topic1|text1
@@ -292,6 +356,24 @@ public class CalendarProgram{
         String labelNote = text;
         Label label = new Label(labelTopic,labelNote,ye,m,row,col);
         labelLists.insertLabel(label);
-        System.out.println("readLable");
+        //System.out.println("readLable");
+    }
+
+    void writeToFile() throws IOException {
+         //2020|11|1|3|t3|x3
+
+        fs.count = 0;
+        for (Label label : labelLists.getLabels()) {
+               String[] tokens1 = label.getLabelNotes().split("[\n]");
+               String text ="";
+              for(int i = 0;i<tokens1.length;i++){
+                text = text + " "+tokens1[i];
+               }
+                String txt = label.getYear()+"|"+label.getMonth()+"|"+label.getRow()+"|"+label.getCol()+"|"+label.getLabelTopic()+"|"+text;
+                fs.content[fs.count] = txt;
+                fs.count++;
+
+        }
+        fs.BufferedWriterDemo(path);
     }
 }

@@ -1,2 +1,8 @@
+<<<<<<< HEAD
 .idea
 target
+=======
+
+target/classes/panle/CalendarProgram$2.class
+*.class
+>>>>>>> origin/master
