@@ -41,7 +41,7 @@ public class Events extends CalendarProgram{
                 }else if((row >= 0 && col >= 0 && !checkbox.isSelected())){
 
                     notepanel.removeAll();
-                    notepanel.setVisible(true);
+                    notepanel.repaint();
                    // int selectedyear = Integer.parseInt((String) cmbYear.getItemAt(cmbYear.getSelectedIndex()));
                    // int selectedmonth= findmonth(lblMonth.getText());
                     int con = labelLists.findLabelsCounts(row,col,currentYear,currentMonth);
@@ -51,9 +51,10 @@ public class Events extends CalendarProgram{
                     for(int i = 0;i<con;i++){
                         String topic = lbs[i].getLabelTopic();
                         String txt = lbs[i].getLabelNotes();
-                        tpl = new JLabel("<html><font color=blue size=5><h>"+topic+"</h><font color=black size=4><p>\""+txt+"\"</p></html>\"");
+                        JLabel tpl = new JLabel("<html><font color=black size=4><body><p>"+txt+"</p></body></html>\"");
                         notepanel.add(tpl);
                         tpl.setBounds(10,10+i*162,280,150);
+                        tpl.setBorder(BorderFactory.createTitledBorder("<html><font color=blue size=5><h>"+topic+"</h></html>\""));
                        // System.out.println(i);
                     }
 
