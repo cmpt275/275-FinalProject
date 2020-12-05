@@ -19,8 +19,8 @@ public class Main {
      //   getNextFiveDaysWeather("49.22830624640323", "-122.9998086267361");
 //        get120HoursForecast("49.22830624640323", "-122.9998086267361");
 //        getLatLong("abc");
-        String publicIP = getIP();
-        System.out.println(publicIP);
+      //  String publicIP = getIP();
+      //  System.out.println(publicIP);
 
     }
 }

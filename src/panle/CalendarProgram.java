@@ -28,6 +28,7 @@ public class CalendarProgram{
     static JButton cancelButton, confirmButton;
     static labelLists labelLists =new labelLists();
     static filesystem fs;
+    static JPanel weatherP;
     //public static void main (String args[]){
     CalendarProgram() throws IOException {
         //Look and feel
@@ -40,7 +41,7 @@ public class CalendarProgram{
         //Prepare frame
         frmMain = new JFrame ("275 Calendar"); //Create frame
         //frmMain.setSize(330, 375); //Set size to 400x400 pixels
-        frmMain.setSize(990+300, 750); //Set size to 400x400 pixels
+        frmMain.setSize(990+300, 750+50); //Set size to 400x400 pixels
         pane = frmMain.getContentPane(); //Get content pane
         pane.setLayout(null); //Apply null layout
         frmMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Close when X is clicked
@@ -56,11 +57,12 @@ public class CalendarProgram{
         stblCalendar = new JScrollPane(tblCalendar);
         pnlCalendar = new JPanel(null);
         notepanel = new JPanel(null);
-
+        weatherP = new JPanel(null);
         //Set border
         //Set new
         pnlCalendar.setBorder(BorderFactory.createTitledBorder("Calendar"));
         notepanel.setBorder(BorderFactory.createTitledBorder("Note"));
+        weatherP.setBorder(BorderFactory.createTitledBorder("Weather"));
         //Register action listeners
         btnPrev.addActionListener(new btnPrev_Action());
         btnNext.addActionListener(new btnNext_Action());
@@ -69,6 +71,7 @@ public class CalendarProgram{
         //Add controls to pane
         pane.add(notepanel);
         pane.add(pnlCalendar);
+        pane.add(weatherP);
         pnlCalendar.add(lblMonth);
         pnlCalendar.add(lblYear);
         pnlCalendar.add(cmbYear);
@@ -88,6 +91,7 @@ public class CalendarProgram{
         //stblCalendar.setBounds(10, 50, 300, 250);
         stblCalendar.setBounds(10, 50, 300+640, 250+335);
         notepanel.setBounds(961,0,300,670);
+        weatherP.setBounds(1,670,1260,85);
         labelpanel = new JPanel(null);
         labelpanel.setBorder(BorderFactory.createTitledBorder("Add Event"));
         frmMain.add(labelpanel);
