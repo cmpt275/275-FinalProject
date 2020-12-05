@@ -46,9 +46,9 @@ public class labelLists {
             return rtnLabel;
         }
 
-        public static void deleteLabel(int row, int col, int year, int month) {
+        public static void deleteLabel(int row, int col, int year, int month, String topic) {
             for (Label label : Labels) {
-                if(label.getYear() == year && label.getMonth() == month && label.getCol() == col && label.getRow() == row){
+                if(label.getYear() == year && label.getMonth() == month && label.getCol() == col && label.getRow() == row && label.getLabelTopic()==topic ){
                     Labels.remove(label);
                     return;
                 }
