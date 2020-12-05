@@ -298,16 +298,14 @@ public class CalendarProgram{
                         if (labelCounts < 4) {
                             tblCalendar.add(eventLabel);
                             eventLabel.setBounds(x + 20, y + labelCounts * 20, width - 20, 40);
-                            System.out.println();
+                            eventLabel.setBackground(Color.black);
+                            String labelTopic = topic;
+                            String labelNote = text;
+
                             String type = "Normal";
                             if (typeList.getSelectedItem() != null){
                                 type = typeList.getSelectedItem().toString();
                             }
-                            if(type.equals("Festival")){
-                                eventLabel.setForeground(new Color(255,186,8));
-                            }
-                            String labelTopic = topic;
-                            String labelNote = text;
                             Label label = new Label(labelTopic, labelNote, year, month, row, col, type);
                             labelLists.insertLabel(label);
                         }
