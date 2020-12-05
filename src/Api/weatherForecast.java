@@ -1,5 +1,6 @@
 package Api;
 import entity.FiveDaysForecast;
+import entity.Location;
 import entity.TodayWeatherForecast;
 import entity.Weather;
 import org.json.simple.JSONArray;
@@ -8,7 +9,6 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
 import java.net.URL;
@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class weatherForecast {
+
     public static String getCurrentWeatherByLatLong(String latitude, String longitude) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://weatherbit-v1-mashape.p.rapidapi.com/current?lon="+longitude+"&lat="+latitude))
@@ -125,7 +126,6 @@ public class weatherForecast {
         }catch (IOException e){
             e.printStackTrace();
         }
-
 /*        JFrame frame = new JFrame();
         frame.setSize(300, 300);
         JLabel label = new JLabel(new ImageIcon(image));
@@ -133,11 +133,25 @@ public class weatherForecast {
         frame.setVisible(true);*/
 
         return image;
-
     }
 
+    public static Location getLatLong(String ipAddress) throws IOException, InterruptedException, ParseException {
 
-
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("http://api.ipstack.com/192.168.1.142?access_key=2e8cec8da06de2be8d8306af6154d636"))
+                .build();
+        HttpResponse<String> response =
+                client.send(request, HttpResponse.BodyHandlers.ofString());
+        String responseEntity = response.body();
+        System.out.println(responseEntity);
+        JSONParser parser = new JSONParser();
+        JSONObject jsonObject = (JSONObject) parser.parse(responseEntity);
+        Location location = new Location();
+        location.setLatitude( jsonObject.get("latitude").toString());
+        location.setLongitude( jsonObject.get("longitude").toString());
+        return location;
+    }
 }
 
 
