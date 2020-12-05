@@ -2,9 +2,13 @@ package panle;
 
 import jdk.jfr.Event;
 import panle.model.Label;
+import panle.model.labelLists;
 
 import javax.swing.*;
+import javax.swing.table.TableCellRenderer;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -13,6 +17,7 @@ public class Events extends CalendarProgram{
     static JCheckBox checkbox;
     static JLabel tpl;
     JLabel cpl;
+    static JButton Today;
     Events() throws IOException {
         JLabel label = new JLabel("<html><font color=red size=4><b>WARNING!</b></html>");
         label.setBounds(0,0,100,100);
@@ -22,6 +27,11 @@ public class Events extends CalendarProgram{
         checkbox.setText("Enable Add Events");
         checkbox.setSelected(false);
         checkbox.setBounds(750, 25, 150, 25);
+
+        Today = new JButton("Today");
+        pnlCalendar.add(Today);
+        Today.setBounds(10, 305+335, 80, 20);
+        Today.addActionListener(new Today_Action());
 
        // notepanel.add(label);
         //Make frame visible
@@ -59,7 +69,7 @@ public class Events extends CalendarProgram{
                         JButton deleteButton = new JButton("Delete Event");
                         notepanel.add(deleteButton);
                         deleteButton.setBounds(125,125+i*162,150,25);
-
+                        deleteButton.addActionListener(new delete(row,col,currentYear,currentMonth,topic,labelLists));
 
                         // System.out.println(i);
                     }
@@ -83,5 +93,69 @@ public class Events extends CalendarProgram{
         return 0;
     }
 
+    static class Today_Action implements ActionListener{
+        public void actionPerformed (ActionEvent e){
+            currentMonth = realMonth; //Match month and year
+            currentYear = realYear;
+            tblCalendar.removeAll();
+            tblCalendar.repaint();
+            refreshCalendar(currentMonth, currentYear);
+            notepanel.removeAll();
+            notepanel.repaint();
+
+        }
+    }
+
+    static class delete implements ActionListener {
+        private int row,col,year,month;
+        private String topic;
+        panle.model.labelLists labelLists;
+
+
+        public delete(int row,int col,int year, int month,String topic,panle.model.labelLists labelLists) {
+            this.row = row;
+            this.col = col;
+            this.year = year;
+            this.month = month;
+            this.topic = topic;
+            this.labelLists = labelLists;
+        }
+
+        public void actionPerformed (ActionEvent e) {
+            System.out.println(topic);
+            labelLists.deleteLabel(row,col,currentYear,currentMonth,topic);
+
+            try {
+                writeToFile();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+
+            tblCalendar.removeAll();
+            tblCalendar.repaint();
+            refreshCalendar(currentMonth, currentYear);
+
+            notepanel.removeAll();
+            notepanel.repaint();
+            int con = labelLists.findLabelsCounts(row,col,currentYear,currentMonth);
+            Label[] lbs =  labelLists.findLabels(row,col,currentYear,currentMonth);
+            for(int i = 0;i<con;i++){
+                String topic = lbs[i].getLabelTopic();
+                String txt = lbs[i].getLabelNotes();
+                JLabel tpl = new JLabel("<html><font color=black size=4><body><p>"+txt+"</p></body></html>\"");
+                notepanel.add(tpl);
+                tpl.setBounds(10,10+i*162,280,150);
+                tpl.setBorder(BorderFactory.createTitledBorder("<html><font color=blue size=5><h>"+topic+"</h></html>\""));
+                JButton deleteButton = new JButton("Delete Event");
+                notepanel.add(deleteButton);
+                deleteButton.setBounds(125,125+i*162,150,25);
+                deleteButton.addActionListener(new delete(row,col,currentYear,currentMonth,topic,labelLists));
+
+                // System.out.println(i);
+            }
+
+        }
+
+    }
 
 }

@@ -26,7 +26,7 @@ public class CalendarProgram{
     static JPanel labelpanel;
     static String path = "data";
     static JButton cancelButton, confirmButton;
-    labelLists labelLists =new labelLists();
+    static labelLists labelLists =new labelLists();
     static filesystem fs;
     //public static void main (String args[]){
     CalendarProgram() throws IOException {
@@ -80,7 +80,7 @@ public class CalendarProgram{
         //pnlCalendar.setBounds(0, 0, 320, 335);
         pnlCalendar.setBounds(0, 0, 960, 670);
         lblMonth.setBounds(320+160-lblMonth.getPreferredSize().width/2, 25, 100, 25);
-        lblYear.setBounds(10, 305+335, 80, 20);
+        lblYear.setBounds(780, 305+335, 80, 20);
         cmbYear.setBounds(230+640, 305+335, 80, 20);
         btnPrev.setBounds(10, 25, 50, 25);
         //btnNext.setBounds(260, 25, 50, 25);
@@ -347,7 +347,7 @@ public class CalendarProgram{
         }
     }
 
-    public void readFromFile()throws IOException {
+    static void readFromFile()throws IOException {
         fs = new filesystem();
         fs.createFile(path);
         fs.BufferedReaderDemo(path);
@@ -356,7 +356,7 @@ public class CalendarProgram{
             readLabel(Integer.parseInt(tokens[2]),Integer.parseInt(tokens[3]),Integer.parseInt(tokens[0]),Integer.parseInt(tokens[1]),tokens[4],tokens[5]);
         }
     }
-    void readLabel(int row, int col,int ye, int m,String topic, String text) {
+    static void readLabel(int row, int col,int ye, int m,String topic, String text) {
 
         String labelTopic = topic;
         String labelNote = text;
@@ -364,7 +364,7 @@ public class CalendarProgram{
         labelLists.insertLabel(label);
     }
 
-    void writeToFile() throws IOException {
+    static void writeToFile() throws IOException {
          //2020|11|1|3|t3|x3
 
         fs.count = 0;
