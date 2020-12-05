@@ -10,12 +10,12 @@ import panle.model.Label;
 import panle.model.labelLists;
 
 public class CalendarProgram{
-    static JLabel lblMonth, lblYear, eventLabel,topicLabel,descriptionLabel,headLabel;
+    static JLabel lblMonth, lblYear, eventLabel,topicLabel,descriptionLabel,typeLabel;
     static JTextField topicTextFiled;
     static JTextArea descriptionTextArea;
     static JButton btnPrev, btnNext;
     static JTable tblCalendar;
-    static JComboBox cmbYear;
+    static JComboBox cmbYear,typeList;
     static JFrame frmMain;
     static Container pane;
     static DefaultTableModel mtblCalendar; //Table model
@@ -145,11 +145,25 @@ public class CalendarProgram{
     }
     public void setLabelPanel(){
 
+        typeLabel = new JLabel("Event Tyep:");
+        typeLabel.setBounds(20,50,150,25);
+        labelpanel.add(typeLabel);
+        String[] typeStrings = { "Normal", "Festival" };
+        typeList = new JComboBox(typeStrings);
+        typeList.setSelectedIndex(0);
+        typeList.setBounds(100, 50, 80, 20);
+        labelpanel.add(typeList);
+
+
+//        petList.addActionListener(this);
+
+
+
         topicLabel = new JLabel("Event Topic:");
-        topicLabel.setBounds(20,50,150,25);
+        topicLabel.setBounds(20,75,150,25);
         labelpanel.add(topicLabel);
         topicTextFiled = new JTextField();
-        topicTextFiled.setBounds(100,50,180,25);
+        topicTextFiled.setBounds(100,75,180,25);
         topicTextFiled.setBackground(Color.white);
         labelpanel.add(topicTextFiled);
 
@@ -224,7 +238,10 @@ public class CalendarProgram{
                     if(labelCounts < 4){
                         tblCalendar.add(eventLabel);
                         eventLabel.setBounds(x+20,y+labelCounts*20,width-20,40);
-                        eventLabel.setBackground(Color.black);
+                        eventLabel.setForeground(Color.black);
+                        if(res.getLabelType().equals("Festival")){
+                            eventLabel.setForeground(new Color(255,186,8));
+                        }
                     }
                     labelCounts++;
                 }
@@ -277,13 +294,19 @@ public class CalendarProgram{
                         int month = currentMonth;
                         int labelCounts = labelLists.findLabelsCounts(row, col, currentYear, currentMonth);
 
+
                         if (labelCounts < 4) {
                             tblCalendar.add(eventLabel);
                             eventLabel.setBounds(x + 20, y + labelCounts * 20, width - 20, 40);
                             eventLabel.setBackground(Color.black);
                             String labelTopic = topic;
                             String labelNote = text;
-                            Label label = new Label(labelTopic, labelNote, year, month, row, col);
+
+                            String type = "Normal";
+                            if (typeList.getSelectedItem() != null){
+                                type = typeList.getSelectedItem().toString();
+                            }
+                            Label label = new Label(labelTopic, labelNote, year, month, row, col, type);
                             labelLists.insertLabel(label);
                         }
                         descriptionTextArea.setText("");
@@ -355,16 +378,18 @@ public class CalendarProgram{
         fs = new filesystem();
         fs.createFile(path);
         fs.BufferedReaderDemo(path);
-        for(int i = 0; i < fs.count;i++){
-            String[] tokens = fs.content[i].split("[|]");
-            readLabel(Integer.parseInt(tokens[2]),Integer.parseInt(tokens[3]),Integer.parseInt(tokens[0]),Integer.parseInt(tokens[1]),tokens[4],tokens[5]);
+        if(fs.count > 0){
+            for(int i = 0; i < fs.count;i++){
+                String[] tokens = fs.content[i].split("[|]");
+                readLabel(Integer.parseInt(tokens[2]),Integer.parseInt(tokens[3]),Integer.parseInt(tokens[0]),Integer.parseInt(tokens[1]),tokens[4],tokens[5],tokens[6]);
+            }
         }
     }
-    static void readLabel(int row, int col,int ye, int m,String topic, String text) {
+    static void readLabel(int row, int col,int ye, int m,String topic, String text,String type) {
 
         String labelTopic = topic;
         String labelNote = text;
-        Label label = new Label(labelTopic,labelNote,ye,m,row,col);
+        Label label = new Label(labelTopic,labelNote,ye,m,row,col,type);
         labelLists.insertLabel(label);
     }
 
@@ -378,7 +403,7 @@ public class CalendarProgram{
               for(int i = 0;i<tokens1.length;i++){
                 text = text + " "+tokens1[i];
                }
-                String txt = label.getYear()+"|"+label.getMonth()+"|"+label.getRow()+"|"+label.getCol()+"|"+label.getLabelTopic()+"|"+text;
+                String txt = label.getYear()+"|"+label.getMonth()+"|"+label.getRow()+"|"+label.getCol()+"|"+label.getLabelTopic()+"|"+text+"|"+label.getLabelType();
                 fs.content[fs.count] = txt;
                 fs.count++;
 
