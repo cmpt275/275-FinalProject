@@ -62,7 +62,7 @@ public class CalendarProgram{
         //Set new
         pnlCalendar.setBorder(BorderFactory.createTitledBorder("Calendar"));
         notepanel.setBorder(BorderFactory.createTitledBorder("Note"));
-        weatherP.setBorder(BorderFactory.createTitledBorder("Weather"));
+        //weatherP.setBorder(BorderFactory.createTitledBorder("Weather"));
         //Register action listeners
         btnPrev.addActionListener(new btnPrev_Action());
         btnNext.addActionListener(new btnNext_Action());
