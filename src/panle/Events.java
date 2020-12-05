@@ -5,6 +5,7 @@ import panle.model.Label;
 import panle.model.labelLists;
 
 import javax.swing.*;
+import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +17,7 @@ public class Events extends CalendarProgram{
     static JCheckBox checkbox;
     static JLabel tpl;
     JLabel cpl;
+    static JButton Today;
     Events() throws IOException {
         JLabel label = new JLabel("<html><font color=red size=4><b>WARNING!</b></html>");
         label.setBounds(0,0,100,100);
@@ -25,6 +27,11 @@ public class Events extends CalendarProgram{
         checkbox.setText("Enable Add Events");
         checkbox.setSelected(false);
         checkbox.setBounds(750, 25, 150, 25);
+
+        Today = new JButton("Today");
+        pnlCalendar.add(Today);
+        Today.setBounds(10, 305+335, 80, 20);
+        Today.addActionListener(new Today_Action());
 
        // notepanel.add(label);
         //Make frame visible
@@ -85,6 +92,20 @@ public class Events extends CalendarProgram{
         }
         return 0;
     }
+
+    static class Today_Action implements ActionListener{
+        public void actionPerformed (ActionEvent e){
+            currentMonth = realMonth; //Match month and year
+            currentYear = realYear;
+            tblCalendar.removeAll();
+            tblCalendar.repaint();
+            refreshCalendar(currentMonth, currentYear);
+            notepanel.removeAll();
+            notepanel.repaint();
+
+        }
+    }
+
     static class delete implements ActionListener {
         private int row,col,year,month;
         private String topic;
@@ -109,7 +130,7 @@ public class Events extends CalendarProgram{
             } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
-            
+
             tblCalendar.removeAll();
             tblCalendar.repaint();
             refreshCalendar(currentMonth, currentYear);
@@ -133,8 +154,8 @@ public class Events extends CalendarProgram{
                 // System.out.println(i);
             }
 
-
         }
+
     }
 
 }
