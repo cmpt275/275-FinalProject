@@ -19,33 +19,38 @@ public class Main {
         // write your code here
         //CalendarProgram mode =new CalendarProgram();
         Events events= new Events();
-        /////////////weather////////////////////////
-        String publicIP = getIP();
-        Location loc =  getLatLong(publicIP);
-        List<FiveDaysForecast> wlist = getNextFiveDayWeather(loc.getLatitude(),loc.getLongitude());
-        int c = 0;
-        String[] d = {"Today","Tomorrow","NextDay","NextDay","NextDay"};
-        for(FiveDaysForecast ls:wlist) {
-            String temp = ls.getTemp();
-            String hum = ls.getRelative_humidity();
-            Image img = ls.getIconImage();
-            ImageIcon icon = new ImageIcon(img);
-            Weather weather = ls.getWeather();
-            String description = weather.getDescription();
+        try {
+            /////////////weather////////////////////////
+            String publicIP = getIP();
+            Location loc = getLatLong(publicIP);
+            List<FiveDaysForecast> wlist = getNextFiveDayWeather(loc.getLatitude(), loc.getLongitude());
+            int c = 0;
+            String[] d = {"Today", "Tomorrow", "NextDay", "NextDay", "NextDay"};
+            for (FiveDaysForecast ls : wlist) {
+                String temp = ls.getTemp();
+                String hum = ls.getRelative_humidity();
+                Image img = ls.getIconImage();
+                ImageIcon icon = new ImageIcon(img);
+                Weather weather = ls.getWeather();
+                String description = weather.getDescription();
 
 
-            JLabel day1 = new JLabel();
+                JLabel day1 = new JLabel();
 
-            events.weatherP.add(day1);
-            day1.setBounds(0+252*c, 0, 251, 85);
-            day1.setBackground(Color.white);
-            day1.setBorder(BorderFactory.createTitledBorder("<html><font color=blue size=4><h>" + d[c] + "</h></html>\""));
-            day1.setText("<html><font color=black size=3><body><p><b>Temp:"+temp+"° C</b></p>\n<p>Humidity:"+hum+"%</p>\n<p><b>"+description+"</b></p></body></html>\"");
-            day1.setIcon(icon);
+                events.weatherP.add(day1);
+                day1.setBounds(0 + 252 * c, 0, 251, 85);
+                day1.setOpaque(true);
+                day1.setBackground(Color.white);
+                day1.setBorder(BorderFactory.createTitledBorder("<html><font color=blue size=4><h>" + d[c] + "</h></html>\""));
+                day1.setText("<html><font color=black size=3><body><p><b>Temp:" + temp + "° C</b></p>\n<p>Humidity:" + hum + "%</p>\n<p><b>" + description + "</b></p></body></html>\"");
+                day1.setIcon(icon);
 
-            c++;
+                c++;
+            }
+            ////////////end weather////////////////////
+        }catch (IOException ioException) {
+            ioException.printStackTrace();
         }
-        ////////////end weather////////////////////
         //  getCurrentWeatherByLatLong("49.22830624640323", "-122.9998086267361");
         //   getNextFiveDaysWeather("49.22830624640323", "-122.9998086267361");
 //        get120HoursForecast("49.22830624640323", "-122.9998086267361");
