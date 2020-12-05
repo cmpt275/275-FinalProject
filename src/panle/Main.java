@@ -50,6 +50,9 @@ public class Main {
             ////////////end weather////////////////////
         }catch (IOException ioException) {
             ioException.printStackTrace();
+            JLabel day1 = new JLabel("<html><font color=red size=4><body><p><b>"+"No Internet"+"</b></p><p>Cannot Load Weather Information</p></body></html>\"");
+            events.weatherP.add(day1);
+            day1.setBounds(20, 0, 251, 85);
         }
         //  getCurrentWeatherByLatLong("49.22830624640323", "-122.9998086267361");
         //   getNextFiveDaysWeather("49.22830624640323", "-122.9998086267361");
