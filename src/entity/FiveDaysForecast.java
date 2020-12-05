@@ -3,20 +3,12 @@ package entity;
 import java.awt.*;
 
 public class FiveDaysForecast {
-    public String relative_humidity;
-    public Weather weather;
-    public String app_temp;
-    public String temp;
-    public String wind_cdir_full;
-    public Image iconImage;
-
-    public Image getIconImage() {
-        return iconImage;
-    }
-
-    public void setIconImage(Image iconImage) {
-        this.iconImage = iconImage;
-    }
+    private String relative_humidity;
+    private Weather weather;
+    private String app_temp;
+    private String temp;
+    private String wind_cdir_full;
+    private Image iconImage;
 
     public String getRelative_humidity() {
         return relative_humidity;
@@ -56,5 +48,13 @@ public class FiveDaysForecast {
 
     public void setWind_cdir_full(String wind_cdir_full) {
         this.wind_cdir_full = wind_cdir_full;
+    }
+
+    public Image getIconImage() {
+        return iconImage;
+    }
+
+    public void setIconImage(Image iconImage) {
+        this.iconImage = iconImage;
     }
 }
