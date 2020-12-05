@@ -139,7 +139,7 @@ public class weatherForecast {
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://api.ipstack.com/192.168.1.142?access_key=2e8cec8da06de2be8d8306af6154d636"))
+                .uri(URI.create("http://api.ipstack.com/"+ipAddress+"?access_key=2e8cec8da06de2be8d8306af6154d636"))
                 .build();
         HttpResponse<String> response =
                 client.send(request, HttpResponse.BodyHandlers.ofString());
