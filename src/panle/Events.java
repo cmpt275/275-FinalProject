@@ -18,7 +18,7 @@ public class Events extends CalendarProgram{
     static JLabel tpl;
     JLabel cpl;
     static JButton Today;
-    Events() throws IOException {
+    Events() throws Exception {
         JLabel label = new JLabel("<html><font color=red size=4><b>WARNING!</b></html>");
         label.setBounds(0,0,100,100);
 

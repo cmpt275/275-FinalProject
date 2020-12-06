@@ -35,7 +35,6 @@ public class holiday {
         JSONArray jsonArray = JSONArray.parseArray(response);
 
         List<Holiday> holidayList = new ArrayList<>();
-        System.out.println(jsonArray.size());
         for (Object holidayObject : jsonArray) {
             JSONObject holidayInfo = (JSONObject) holidayObject;
 
@@ -52,10 +51,20 @@ public class holiday {
         Holiday fistHoliday = holidayList.get(0);
         List<Holiday> distinctHolidayList = new ArrayList<>();
         distinctHolidayList.add(fistHoliday);
+        System.out.println(holidayList.size());
+
+
         for(int i = 0; i< holidayList.size(); i++ ){
-            Holiday distinctHoliday = holidayList.get(i+1);
-            if(!distinctHoliday.getDate_day().equals(holidayList.get(i).getDate_day())){
-                distinctHolidayList.add(distinctHoliday);
+            if(i < holidayList.size() -1){
+                Holiday distinctHoliday = holidayList.get(i);
+                if(!distinctHoliday.getDate_day().equals(holidayList.get(i+1).getDate_day())){
+                    distinctHolidayList.add(distinctHoliday);
+                }
+            }else{
+                Holiday distinctHoliday = holidayList.get(i);
+                if(!distinctHoliday.getDate_day().equals(holidayList.get(i-1).getDate_day())){
+                    distinctHolidayList.add(distinctHoliday);
+                }
             }
         }
         return distinctHolidayList;

@@ -6,11 +6,16 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
+
+import entity.Holiday;
 import panle.model.Label;
 import panle.model.labelLists;
 
+import static Api.holiday.getThisMonthHolidayList;
+
 public class CalendarProgram{
-    static JLabel lblMonth, lblYear, eventLabel,topicLabel,descriptionLabel,typeLabel;
+    static JLabel lblMonth, lblYear, eventLabel,topicLabel,descriptionLabel,typeLabel,holidayLabel;
     static JTextField topicTextFiled;
     static JTextArea descriptionTextArea;
     static JButton btnPrev, btnNext;
@@ -29,8 +34,9 @@ public class CalendarProgram{
     static labelLists labelLists =new labelLists();
     static filesystem fs;
     static JPanel weatherP;
+    static  List<Holiday> holidaysList;
     //public static void main (String args[]){
-    CalendarProgram() throws IOException {
+    CalendarProgram() throws Exception {
         //Look and feel
         try {UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());}
         catch (ClassNotFoundException e) {}
@@ -137,7 +143,7 @@ public class CalendarProgram{
         for (int i=realYear-100; i<=realYear+100; i++){
             cmbYear.addItem(String.valueOf(i));
         }
-
+        holidaysList = getThisMonthHolidayList(String.valueOf(realYear),String.valueOf(realMonth+1));
         readFromFile();
         //Refresh calendar
         System.out.println("refreshCalendar1");
@@ -193,7 +199,6 @@ public class CalendarProgram{
         //Variables
         String[] months =  {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
         int nod, som; //Number Of Days, Start Of Month
-
         //Allow/disallow buttons
         btnPrev.setEnabled(true);
         btnNext.setEnabled(true);
@@ -209,8 +214,6 @@ public class CalendarProgram{
                 mtblCalendar.setValueAt(null, i, j);
                 tblCalendar.removeAll();
                 tblCalendar.repaint();
-
-
             }
         }
         //Get first day of month and number of days
@@ -219,11 +222,27 @@ public class CalendarProgram{
         som = cal.get(GregorianCalendar.DAY_OF_WEEK);
 
         //Draw calendar
+        int day = 1;
         for (int i=1; i<=nod; i++){
             int row = new Integer((i+som-2)/7);
             int column  =  (i+som-2)%7;
             mtblCalendar.setValueAt(i, row, column);
             Label[] currentLabel = panle.model.labelLists.findLabels(row, column, currentYear, currentMonth);
+            if(currentYear == 2020 && currentMonth == 11){
+                for (Holiday holiday : holidaysList){
+                    if (holiday.getDate_day().equals(String.valueOf(day))){
+                        holidayLabel = new JLabel(holiday.getName());
+                        Rectangle rect = tblCalendar.getCellRect(row, column,false);
+                        int x =  (int)rect.getX();
+                        int y =  (int)rect.getY();
+                        double height = rect.getHeight();
+                        int width = (int)rect.getWidth() ;
+                        tblCalendar.add(holidayLabel);
+                        holidayLabel.setBounds(x+20,y+65,width-20,40);
+                        holidayLabel.setForeground(Color.red);
+                    }
+                }
+            }
             if(currentLabel.length > 0){
                 //System.out.println(currentLabel.length);
                 int labelCounts = 0;
@@ -237,7 +256,7 @@ public class CalendarProgram{
                     int width = (int)rect.getWidth() ;
                     if(labelCounts < 4){
                         tblCalendar.add(eventLabel);
-                        eventLabel.setBounds(x+20,y+labelCounts*20,width-20,40);
+                        eventLabel.setBounds(x+20,y-10+labelCounts*20,width-20,40);
                         eventLabel.setForeground(Color.black);
                         if(res.getLabelType().equals("Festival")){
                             eventLabel.setForeground(new Color(255,186,8));
@@ -246,6 +265,7 @@ public class CalendarProgram{
                     labelCounts++;
                 }
             }
+            day++;
         }
 
         //Apply renderers
@@ -297,7 +317,8 @@ public class CalendarProgram{
 
                         if (labelCounts < 4) {
                             tblCalendar.add(eventLabel);
-                            eventLabel.setBounds(x + 20, y + labelCounts * 20, width - 20, 40);
+                            eventLabel.setBounds(x+20,y-10+labelCounts*20,width-20,40);
+
                             System.out.println();
                             String type = "Normal";
                             if (typeList.getSelectedItem() != null){
