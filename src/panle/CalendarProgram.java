@@ -20,7 +20,7 @@ public class CalendarProgram{
     static JTextArea descriptionTextArea;
     static JButton btnPrev, btnNext;
     static JTable tblCalendar;
-    static JComboBox cmbYear,typeList;
+    static JComboBox cmbYear,typeList,changeMode;
     static JFrame frmMain;
     static Container pane;
     static DefaultTableModel mtblCalendar; //Table model
@@ -35,6 +35,7 @@ public class CalendarProgram{
     static filesystem fs;
     static JPanel weatherP;
     static  List<Holiday> holidaysList;
+    static Color color, weekendColor,textColor,festivalColor,eventColor,dayColor,todayColor;
     //public static void main (String args[]){
     CalendarProgram() throws Exception {
         //Look and feel
@@ -43,11 +44,17 @@ public class CalendarProgram{
         catch (InstantiationException e) {}
         catch (IllegalAccessException e) {}
         catch (UnsupportedLookAndFeelException e) {}
-
+        color = new Color(255,255,255);
+        weekendColor = new Color(	3, 218, 198,87);
+        textColor = new Color(0,0,0);
+        dayColor = new Color(0,0,0);
+        eventColor = new Color(	1, 135, 134);
+        festivalColor= new Color(55, 0, 179);
+        todayColor = new Color(219, 141, 155,87);
         //Prepare frame
         frmMain = new JFrame ("275 Calendar"); //Create frame
         //frmMain.setSize(330, 375); //Set size to 400x400 pixels
-        frmMain.setSize(990+300, 750+50); //Set size to 400x400 pixels
+        frmMain.setSize(990+300, 750+50+15); //Set size to 400x400 pixels
         pane = frmMain.getContentPane(); //Get content pane
         pane.setLayout(null); //Apply null layout
         frmMain.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //Close when X is clicked
@@ -97,7 +104,8 @@ public class CalendarProgram{
         //stblCalendar.setBounds(10, 50, 300, 250);
         stblCalendar.setBounds(10, 50, 300+640, 250+335);
         notepanel.setBounds(961,0,300,670);
-        weatherP.setBounds(1,670,1260,85);
+        weatherP.setBounds(1,670,1260,100);
+
         labelpanel = new JPanel(null);
         labelpanel.setBorder(BorderFactory.createTitledBorder("Add Event"));
         frmMain.add(labelpanel);
@@ -115,6 +123,13 @@ public class CalendarProgram{
         realYear = cal.get(GregorianCalendar.YEAR); //Get year
         currentMonth = realMonth; //Match month and year
         currentYear = realYear;
+
+        String[] modeStrings = { "Dark Mode", "Light Mode" };
+        changeMode = new JComboBox(modeStrings);
+        changeMode.setSelectedIndex(1);
+        pnlCalendar.add(changeMode);
+        changeMode.setBounds(80, 25, 150, 23);
+        changeMode.addActionListener(new changeMode_Action());
 
         //Add headers
         String[] headers = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"}; //All headers
@@ -239,7 +254,7 @@ public class CalendarProgram{
                         int width = (int)rect.getWidth() ;
                         tblCalendar.add(holidayLabel);
                         holidayLabel.setBounds(x+20,y+65,width-20,40);
-                        holidayLabel.setForeground(Color.red);
+                        holidayLabel.setForeground(festivalColor);
                     }
                 }
             }
@@ -257,9 +272,9 @@ public class CalendarProgram{
                     if(labelCounts < 4){
                         tblCalendar.add(eventLabel);
                         eventLabel.setBounds(x+20,y-10+labelCounts*20,width-20,40);
-                        eventLabel.setForeground(Color.black);
+                        eventLabel.setForeground(textColor);
                         if(res.getLabelType().equals("Festival")){
-                            eventLabel.setForeground(new Color(255,186,8));
+                            eventLabel.setForeground(eventColor);
                         }
                     }
                     labelCounts++;
@@ -279,19 +294,19 @@ public class CalendarProgram{
 
             super.getTableCellRendererComponent(table, value, selected, focused, row, column);
             if (column == 0 || column == 6){ //Week-end
-                setBackground(new Color(255, 220, 220));
+                setBackground(weekendColor);
             }
             else{ //Week
-                setBackground(new Color(255, 255, 255));
+                setBackground(color);
             }
             if (value != null){
                 if (Integer.parseInt(value.toString()) == realDay && currentMonth == realMonth && currentYear == realYear){ //Today
-                    setBackground(new Color(220, 220, 255));
+                    setBackground(todayColor);
                 }
             }
 
             setBorder(null);
-            setForeground(Color.black);
+            setForeground(dayColor);
             return this;
         }
     }
@@ -323,9 +338,11 @@ public class CalendarProgram{
                             String type = "Normal";
                             if (typeList.getSelectedItem() != null){
                                 type = typeList.getSelectedItem().toString();
+                                eventLabel.setForeground(textColor);
+
                             }
                             if(type.equals("Festival")){
-                                eventLabel.setForeground(new Color(255,186,8));
+                                eventLabel.setForeground(eventColor);
                             }
                             String labelTopic = topic;
                             String labelNote = text;
@@ -432,5 +449,35 @@ public class CalendarProgram{
 
         }
         fs.BufferedWriterDemo(path);
+    }
+
+    static class changeMode_Action implements ActionListener{
+        public void actionPerformed (ActionEvent e){
+            System.out.println(e);
+            if(changeMode.getSelectedItem() != null) {
+                System.out.println(changeMode.getSelectedItem());
+                if (changeMode.getSelectedItem().equals("Dark Mode")) {
+                    color = new Color(18, 18, 18);
+                    weekendColor = new Color(51, 41, 64);
+                    textColor = new Color(187, 134, 252);
+                    festivalColor = new Color(	207, 102, 121);
+                    dayColor = new Color(255,255,255);
+                    todayColor = new Color(	55, 0, 179);
+                    refreshCalendar(currentMonth, currentYear);
+                }else if (changeMode.getSelectedItem().equals("Light Mode")){
+                    color = new Color(255,255,255);
+                    weekendColor = new Color(	3, 218, 198,87);
+                    textColor = new Color(0,0,0);
+                    dayColor = new Color(0,0,0);
+                    eventColor = new Color(	1, 135, 134);
+                    festivalColor= new Color(55, 0, 179);
+                    todayColor = new Color(	219, 141, 155,87);
+
+                    refreshCalendar(currentMonth, currentYear);
+
+                }
+            }
+
+        }
     }
 }

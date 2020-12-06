@@ -48,15 +48,15 @@ public class Main {
                     Weather weather = ls.getWeather();
                     String description = weather.getDescription();
 
-
+                    String recommendation = recommendActivities(hum);
                     JLabel day1 = new JLabel();
 
                     events.weatherP.add(day1);
-                    day1.setBounds(0 + 252 * c, 0, 251, 85);
+                    day1.setBounds(0 + 252 * c, 0, 251, 100);
                     day1.setOpaque(true);
                     day1.setBackground(Color.white);
                     day1.setBorder(BorderFactory.createTitledBorder("<html><font color=blue size=4><h>" + d[c] + "</h></html>\""));
-                    day1.setText("<html><font color=black size=3><body><p><b>Temp:" + temp + "° C</b></p>\n<p><b>Humidity:" + hum + "%</b></p>\n<p><b>" + description + "</b></p></body></html>\"");
+                    day1.setText("<html><font color=black size=3><body><p><b>Temp:" + temp + "° C</b></p>\n<p><b>Humidity:" + hum + "%</b></p>\n<p><b>" + description + "</b></p>\n<p><b>" + recommendation + "</b></p></body></html>\"");
                     day1.setIcon(icon);
 
                     c++;
@@ -78,6 +78,16 @@ public class Main {
         events.frmMain.setVisible(true);
         System.out.println("Started");
 
+    }
+    private static String recommendActivities(String hum) {
+        String recommendation = "";
+        int humidity = Integer.valueOf(hum);
+        if( humidity < 70 && humidity >= 50){
+            recommendation = "Recommend Outdoor Activities" ;
+        }else {
+            recommendation = "Recommend Indoor Activities" ;
+        }
+        return recommendation;
     }
 
     private static String str_week(int y,int m,int d){
