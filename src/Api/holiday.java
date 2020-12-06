@@ -29,15 +29,15 @@ public class holiday {
         return responseEntity;
     }
 
-    public static JSONObject getThisMonthHolidayList(String year, String month) throws IOException, InterruptedException, ParseException {
+    public static List<Holiday> getThisMonthHolidayList(String year, String month) throws IOException, InterruptedException {
 
         String response = getHoliday(year, month);
         JSONArray jsonArray = JSONArray.parseArray(response);
 
         List<Holiday> holidayList = new ArrayList<>();
         System.out.println(jsonArray.size());
-        for(int i = 0; i < jsonArray.size(); i++){
-            JSONObject holidayInfo = (JSONObject) jsonArray.get(i);
+        for (Object holidayObject : jsonArray) {
+            JSONObject holidayInfo = (JSONObject) holidayObject;
 
             Holiday holiday = new Holiday();
             holiday.setName((String) holidayInfo.get("name"));
@@ -47,6 +47,6 @@ public class holiday {
             holiday.setDate_day((String) holidayInfo.get("date_day"));
             holidayList.add(holiday);
         }
-        return (JSONObject) holidayList;
+        return holidayList;
     }
 }
