@@ -45,8 +45,19 @@ public class holiday {
             holiday.setDate_year((String) holidayInfo.get("date_year"));
             holiday.setDate_month((String) holidayInfo.get("date_month"));
             holiday.setDate_day((String) holidayInfo.get("date_day"));
+
             holidayList.add(holiday);
         }
-        return holidayList;
+
+        Holiday fistHoliday = holidayList.get(0);
+        List<Holiday> distinctHolidayList = new ArrayList<>();
+        distinctHolidayList.add(fistHoliday);
+        for(int i = 0; i< holidayList.size(); i++ ){
+            Holiday distinctHoliday = holidayList.get(i+1);
+            if(!distinctHoliday.getDate_day().equals(holidayList.get(i).getDate_day())){
+                distinctHolidayList.add(distinctHoliday);
+            }
+        }
+        return distinctHolidayList;
     }
 }
