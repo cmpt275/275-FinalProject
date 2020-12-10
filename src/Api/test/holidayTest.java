@@ -21,19 +21,19 @@ class holidayTest {
     }
 
     @Test
-    void getResponseTest(){
+    void TestGetResponse(){
         assertNotNull(response);
     }
 
     @Test
-    void getHolidayResponse() throws IOException, InterruptedException {
+    void TestGetHolidayResponse() throws IOException, InterruptedException {
         TimeUnit.SECONDS.sleep(2);
         holidayList = holiday.getThisMonthHolidayList("2020", "12");
         assertNotNull(holidayList);
     }
 
     @Test
-    void getHolidayTestSize() throws InterruptedException, IOException {
+    void TestGetHolidayListSize() throws InterruptedException, IOException {
         TimeUnit.SECONDS.sleep(2);
         holidayList = holiday.getThisMonthHolidayList("2020", "12");
         assertEquals(8, holidayList.size());

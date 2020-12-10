@@ -116,7 +116,6 @@ public class weatherForecast {
     /*Read the icon string and return the icon image*/
     public static Image getWeatherIcon(String icon) {
         String iconSubString = icon.substring(1);
-        System.out.println(iconSubString);
 
         Image image = null;
         try {
@@ -149,7 +148,6 @@ public class weatherForecast {
                     client.send(request, HttpResponse.BodyHandlers.ofString());
         }
         String responseEntity = response.body();
-        System.out.println(responseEntity);
         JSONParser parser = new JSONParser();
         JSONObject jsonObject = (JSONObject) parser.parse(responseEntity);
         //default location if no location return

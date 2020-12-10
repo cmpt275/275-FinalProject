@@ -54,7 +54,7 @@ class weatherForecastTest {
     }
 
     @Test
-    void TestNullToGetLatLong() throws IOException, ParseException, InterruptedException {
+    void TestNullIPGetLatLong() throws IOException, ParseException, InterruptedException {
         ipAddress = "";
         Location location = weatherForecast.getLatLong(ipAddress);
         assertNotNull(location);

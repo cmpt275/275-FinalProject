@@ -17,7 +17,7 @@ class getIPAddressTest {
     }
 
     @Test
-    void getIPTest(){
+    void TestGetIP(){
         assertNotNull(response);
     }
 
