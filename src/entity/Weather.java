@@ -1,9 +1,9 @@
 package entity;
 
 public class Weather {
-    public String icon;
-    public long code;
-    public String description;
+    private String icon;
+    private long code;
+    private String description;
 
     public String getIcon() {
         return icon;

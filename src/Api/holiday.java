@@ -2,7 +2,6 @@ package Api;
 
 
 import entity.Holiday;
-import org.json.simple.parser.ParseException;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import java.io.IOException;
@@ -14,8 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class holiday {
-
-    private static String getHoliday(String year, String month) throws IOException, InterruptedException {
+    /*get the JSON String holiday response from API*/
+    public static String getHoliday(String year, String month) throws IOException, InterruptedException {
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
@@ -29,6 +28,7 @@ public class holiday {
         return responseEntity;
     }
 
+    /*Refactor the response and output the distinct holiday list*/
     public static List<Holiday> getThisMonthHolidayList(String year, String month) throws IOException, InterruptedException {
 
         String response = getHoliday(year, month);
@@ -48,21 +48,21 @@ public class holiday {
             holidayList.add(holiday);
         }
 
+        /*Find the distinct holiday list*/
         Holiday fistHoliday = holidayList.get(0);
         List<Holiday> distinctHolidayList = new ArrayList<>();
         distinctHolidayList.add(fistHoliday);
         System.out.println(holidayList.size());
 
-
         for(int i = 0; i< holidayList.size(); i++ ){
             if(i < holidayList.size() -1){
                 Holiday distinctHoliday = holidayList.get(i);
                 if(!distinctHoliday.getDate_day().equals(holidayList.get(i+1).getDate_day())){
-                    distinctHolidayList.add(distinctHoliday);
+                    distinctHolidayList.add(holidayList.get(i+1));
                 }
             }else{
                 Holiday distinctHoliday = holidayList.get(i);
-                if(!distinctHoliday.getDate_day().equals(holidayList.get(i-1).getDate_day())){
+                if(!distinctHoliday.getDate_day().equals(holidayList.get(i).getDate_day())){
                     distinctHolidayList.add(distinctHoliday);
                 }
             }

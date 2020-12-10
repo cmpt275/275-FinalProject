@@ -1,6 +1,6 @@
-package Api;
+package Api.test;
 
-import org.junit.Before;
+import Api.getIPAddress;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -18,7 +18,7 @@ class getIPAddressTest {
 
     @Test
     void getIPTest(){
-        assertEquals(!response.isEmpty(), !response.isEmpty());
+        assertNotNull(response);
     }
 
 }

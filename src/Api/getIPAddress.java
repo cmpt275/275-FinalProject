@@ -8,18 +8,19 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 public class getIPAddress {
-
+    /*Get the local IPV4 address*/
     public static String getIP() throws IOException {
 
         InetAddress localhost = InetAddress.getLocalHost();
-        String publicIPAddress = "";
+        String publicIPAddress;
 
         try {
             URL url_name = new URL("http://bot.whatismyipaddress.com");
             BufferedReader sc = new BufferedReader(new InputStreamReader(url_name.openStream()));
             publicIPAddress = sc.readLine().trim();
+            System.out.println(publicIPAddress);
         } catch (MalformedURLException e) {
-            publicIPAddress = "Cannot Execute Properly";
+            publicIPAddress = "";
         }
         return publicIPAddress;
     }

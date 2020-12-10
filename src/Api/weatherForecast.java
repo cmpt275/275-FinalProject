@@ -21,6 +21,7 @@ import java.util.List;
 
 public class weatherForecast {
 
+    /*Get today's weather from API response*/
     public static String getCurrentWeatherByLatLong(String latitude, String longitude) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://weatherbit-v1-mashape.p.rapidapi.com/current?lon="+longitude+"&lat="+latitude))
@@ -34,6 +35,7 @@ public class weatherForecast {
         return responseEntity;
     }
 
+    /*Get next five day's weather from API response*/
     public static String getNextFiveDaysWeatherByLatLong(String latitude, String longitude) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create("https://weatherbit-v1-mashape.p.rapidapi.com/forecast/3hourly?lat="+latitude+"&lon="+longitude))
@@ -47,6 +49,7 @@ public class weatherForecast {
         return responseEntity;
     }
 
+    /*Create model to store today's weather information*/
     public static TodayWeatherForecast getTodayWeather(String latitude, String longitude) throws IOException, InterruptedException, ParseException {
         String response = getCurrentWeatherByLatLong(latitude, longitude);
         JSONParser parser = new JSONParser();
@@ -54,12 +57,11 @@ public class weatherForecast {
         JSONArray obj_jsonArray = (JSONArray) jsonObject.get("data");
         JSONObject weather_info = (JSONObject) obj_jsonArray.get(0);
 
-
         TodayWeatherForecast todayWeatherForecast = new TodayWeatherForecast();
-        todayWeatherForecast.setRelative_humidity((Long) weather_info.get("rh"));
+        todayWeatherForecast.setRelative_humidity( weather_info.get("rh").toString());
         todayWeatherForecast.setPressure((Double) weather_info.get("pres"));
         todayWeatherForecast.setVisibility((Long) weather_info.get("vis"));
-        todayWeatherForecast.setSolar_rad((Long) weather_info.get("solar_rad"));
+        todayWeatherForecast.setSolar_rad( weather_info.get("solar_rad").toString());
         todayWeatherForecast.setCity_name((String) weather_info.get("city_name"));
         todayWeatherForecast.setWind_speed((Double) weather_info.get("wind_spd"));
         todayWeatherForecast.setWind_cdir((String) weather_info.get("wind_cdir"));
@@ -79,6 +81,7 @@ public class weatherForecast {
         return todayWeatherForecast;
     }
 
+    /*Create model list to store five day's weather information*/
     public static List<FiveDaysForecast> getNextFiveDayWeather(String latitude, String longitude) throws Exception {
         String response = getNextFiveDaysWeatherByLatLong(latitude, longitude);
         JSONParser parser = new JSONParser();
@@ -107,15 +110,11 @@ public class weatherForecast {
             i = i + 8;
         }
 
-/*        JSONObject weather_info = (JSONObject) weatherInfoArray.get(0);
-        String dateTime = (String) weather_info.get("timestamp_local");
-        DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss");
-        DateTime dt = DateTime.parse(dateTime, formatter);*/
-
         return fiveDaysForecastsList;
     }
 
-    public static Image getWeatherIcon(String icon) throws IOException {
+    /*Read the icon string and return the icon image*/
+    public static Image getWeatherIcon(String icon) {
         String iconSubString = icon.substring(1);
         System.out.println(iconSubString);
 
@@ -126,30 +125,43 @@ public class weatherForecast {
         }catch (IOException e){
             e.printStackTrace();
         }
-/*        JFrame frame = new JFrame();
-        frame.setSize(300, 300);
-        JLabel label = new JLabel(new ImageIcon(image));
-        frame.add(label);
-        frame.setVisible(true);*/
-
         return image;
     }
 
+    /*Get the Geographic coordinates from the ip Address */
     public static Location getLatLong(String ipAddress) throws IOException, InterruptedException, ParseException {
 
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("http://api.ipstack.com/"+ipAddress+"?access_key=2e8cec8da06de2be8d8306af6154d636"))
-                .build();
-        HttpResponse<String> response =
-                client.send(request, HttpResponse.BodyHandlers.ofString());
+        HttpResponse<String> response;
+        if(!ipAddress.isEmpty()) {
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://api.ipstack.com/" + ipAddress + "?access_key=2e8cec8da06de2be8d8306af6154d636"))
+                    .build();
+            response =
+                    client.send(request, HttpResponse.BodyHandlers.ofString());
+        }
+        else {
+            //default ip address if the ip fetch failed
+            HttpRequest request = HttpRequest.newBuilder()
+                    .uri(URI.create("http://api.ipstack.com/206.116.113.82?access_key=2e8cec8da06de2be8d8306af6154d636"))
+                    .build();
+            response =
+                    client.send(request, HttpResponse.BodyHandlers.ofString());
+        }
         String responseEntity = response.body();
         System.out.println(responseEntity);
         JSONParser parser = new JSONParser();
         JSONObject jsonObject = (JSONObject) parser.parse(responseEntity);
-        Location location = new Location();
-        location.setLatitude( jsonObject.get("latitude").toString());
-        location.setLongitude( jsonObject.get("longitude").toString());
+        //default location if no location return
+        Location location;
+        if(jsonObject.isEmpty()){
+            location = new Location("49.214599770271455","-122.98873646818907");
+        }
+        else {
+            location = new Location("", "");
+            location.setLatitude(jsonObject.get("latitude").toString());
+            location.setLongitude(jsonObject.get("longitude").toString());
+        }
         return location;
     }
 }

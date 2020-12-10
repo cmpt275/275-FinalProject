@@ -3,10 +3,10 @@ package entity;
 import java.awt.*;
 
 public class TodayWeatherForecast {
-    public long relative_humidity;
+    public String relative_humidity;
     public double pressure;
     public long visibility;
-    public long solar_rad;
+    public String solar_rad;
     public String city_name;
     public double wind_speed;
     public String wind_cdir;
@@ -26,11 +26,11 @@ public class TodayWeatherForecast {
         this.iconImage = iconImage;
     }
 
-    public long getRelative_humidity() {
+    public String getRelative_humidity() {
         return relative_humidity;
     }
 
-    public void setRelative_humidity(long relative_humidity) {
+    public void setRelative_humidity(String relative_humidity) {
         this.relative_humidity = relative_humidity;
     }
 
@@ -50,11 +50,11 @@ public class TodayWeatherForecast {
         this.visibility = visibility;
     }
 
-    public long getSolar_rad() {
+    public String getSolar_rad() {
         return solar_rad;
     }
 
-    public void setSolar_rad(long solar_rad) {
+    public void setSolar_rad(String solar_rad) {
         this.solar_rad = solar_rad;
     }
 

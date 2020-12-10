@@ -48,7 +48,7 @@ public class CalendarProgram{
         weekendColor = new Color(	3, 218, 198,87);
         textColor = new Color(0,0,0);
         dayColor = new Color(0,0,0);
-        eventColor = new Color(	1, 135, 134);
+        eventColor = new Color(	36, 113, 163);
         festivalColor= new Color(55, 0, 179);
         todayColor = new Color(219, 141, 155,87);
         //Prepare frame
@@ -245,7 +245,7 @@ public class CalendarProgram{
             Label[] currentLabel = panle.model.labelLists.findLabels(row, column, currentYear, currentMonth);
             if(currentYear == 2020 && currentMonth == 11){
                 for (Holiday holiday : holidaysList){
-                    if (holiday.getDate_day().equals(String.valueOf(day))){
+                    if (Integer.parseInt(holiday.getDate_day())==day){
                         holidayLabel = new JLabel(holiday.getName());
                         Rectangle rect = tblCalendar.getCellRect(row, column,false);
                         int x =  (int)rect.getX();
@@ -469,7 +469,7 @@ public class CalendarProgram{
                     weekendColor = new Color(	3, 218, 198,87);
                     textColor = new Color(0,0,0);
                     dayColor = new Color(0,0,0);
-                    eventColor = new Color(	1, 135, 134);
+                    eventColor = new Color(	36, 113, 163);
                     festivalColor= new Color(55, 0, 179);
                     todayColor = new Color(	219, 141, 155,87);
 

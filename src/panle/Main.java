@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.List;
 
 import static Api.getIPAddress.getIP;
+import static Api.holiday.getThisMonthHolidayList;
 import static Api.weatherForecast.*;
 
 public class Main {
@@ -80,7 +81,7 @@ public class Main {
 
     }
     private static String recommendActivities(String hum) {
-        String recommendation = "";
+        String recommendation;
         int humidity = Integer.valueOf(hum);
         if( humidity < 70 && humidity >= 50){
             recommendation = "Recommend Outdoor Activities" ;

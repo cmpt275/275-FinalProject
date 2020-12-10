@@ -4,6 +4,10 @@ public class Location {
     private String Latitude;
     private String Longitude;
 
+    public Location(String latitude, String longitude) {
+        Latitude = latitude;
+        Longitude = longitude;
+    }
 
     public String getLatitude() {
         return Latitude;
