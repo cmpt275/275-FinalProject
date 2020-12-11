@@ -158,12 +158,7 @@ public class CalendarProgram{
         for (int i=realYear-100; i<=realYear+100; i++){
             cmbYear.addItem(String.valueOf(i));
         }
-        try{
-            holidaysList = getThisMonthHolidayList(String.valueOf(realYear),String.valueOf(realMonth+1));
-        }catch (IOException ioException){
-            ioException.printStackTrace();
-            holidaysList = null;
-        }
+        holidaysList = getThisMonthHolidayList(String.valueOf(realYear),String.valueOf(realMonth+1));
         readFromFile();
         //Refresh calendar
         System.out.println("refreshCalendar1");
