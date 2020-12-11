@@ -24,5 +24,4 @@ public class getIPAddress {
         }
         return publicIPAddress;
     }
-
 }

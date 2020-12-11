@@ -158,7 +158,12 @@ public class CalendarProgram{
         for (int i=realYear-100; i<=realYear+100; i++){
             cmbYear.addItem(String.valueOf(i));
         }
-        holidaysList = getThisMonthHolidayList(String.valueOf(realYear),String.valueOf(realMonth+1));
+        try{
+            holidaysList = getThisMonthHolidayList(String.valueOf(realYear),String.valueOf(realMonth+1));
+        }catch (IOException ioException){
+            ioException.printStackTrace();
+            holidaysList = null;
+        }
         readFromFile();
         //Refresh calendar
         System.out.println("refreshCalendar1");
@@ -243,21 +248,21 @@ public class CalendarProgram{
             int column  =  (i+som-2)%7;
             mtblCalendar.setValueAt(i, row, column);
             Label[] currentLabel = panle.model.labelLists.findLabels(row, column, currentYear, currentMonth);
-            if(currentYear == 2020 && currentMonth == 11){
-                for (Holiday holiday : holidaysList){
-                    if (Integer.parseInt(holiday.getDate_day())==day){
-                        holidayLabel = new JLabel(holiday.getName());
-                        Rectangle rect = tblCalendar.getCellRect(row, column,false);
-                        int x =  (int)rect.getX();
-                        int y =  (int)rect.getY();
-                        double height = rect.getHeight();
-                        int width = (int)rect.getWidth() ;
-                        tblCalendar.add(holidayLabel);
-                        holidayLabel.setBounds(x+20,y+65,width-20,40);
-                        holidayLabel.setForeground(festivalColor);
+                if(currentYear == 2020 && currentMonth == 11){
+                    for (Holiday holiday : holidaysList){
+                        if (Integer.parseInt(holiday.getDate_day())==day){
+                            holidayLabel = new JLabel(holiday.getName());
+                            Rectangle rect = tblCalendar.getCellRect(row, column,false);
+                            int x =  (int)rect.getX();
+                            int y =  (int)rect.getY();
+                            double height = rect.getHeight();
+                            int width = (int)rect.getWidth() ;
+                            tblCalendar.add(holidayLabel);
+                            holidayLabel.setBounds(x+20,y+65,width-20,40);
+                            holidayLabel.setForeground(festivalColor);
+                        }
                     }
                 }
-            }
             if(currentLabel.length > 0){
                 //System.out.println(currentLabel.length);
                 int labelCounts = 0;

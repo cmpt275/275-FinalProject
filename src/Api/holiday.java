@@ -29,44 +29,49 @@ public class holiday {
     }
 
     /*Refactor the response and output the distinct holiday list*/
-    public static List<Holiday> getThisMonthHolidayList(String year, String month) throws IOException, InterruptedException {
-
-        String response = getHoliday(year, month);
-        JSONArray jsonArray = JSONArray.parseArray(response);
-
-        List<Holiday> holidayList = new ArrayList<>();
-        for (Object holidayObject : jsonArray) {
-            JSONObject holidayInfo = (JSONObject) holidayObject;
-
-            Holiday holiday = new Holiday();
-            holiday.setName((String) holidayInfo.get("name"));
-            holiday.setDate((String) holidayInfo.get("date"));
-            holiday.setDate_year((String) holidayInfo.get("date_year"));
-            holiday.setDate_month((String) holidayInfo.get("date_month"));
-            holiday.setDate_day((String) holidayInfo.get("date_day"));
-
-            holidayList.add(holiday);
-        }
-
-        /*Find the distinct holiday list*/
-        Holiday fistHoliday = holidayList.get(0);
+    public static List<Holiday> getThisMonthHolidayList(String year, String month) throws InterruptedException {
         List<Holiday> distinctHolidayList = new ArrayList<>();
-        distinctHolidayList.add(fistHoliday);
-        System.out.println(holidayList.size());
+        try{
+            String response = getHoliday(year, month);
+            JSONArray jsonArray = JSONArray.parseArray(response);
 
-        for(int i = 0; i< holidayList.size(); i++ ){
-            if(i < holidayList.size() -1){
-                Holiday distinctHoliday = holidayList.get(i);
-                if(!distinctHoliday.getDate_day().equals(holidayList.get(i+1).getDate_day())){
-                    distinctHolidayList.add(holidayList.get(i+1));
-                }
-            }else{
-                Holiday distinctHoliday = holidayList.get(i);
-                if(!distinctHoliday.getDate_day().equals(holidayList.get(i).getDate_day())){
-                    distinctHolidayList.add(distinctHoliday);
+            List<Holiday> holidayList = new ArrayList<>();
+            for (Object holidayObject : jsonArray) {
+                JSONObject holidayInfo = (JSONObject) holidayObject;
+
+                Holiday holiday = new Holiday();
+                holiday.setName((String) holidayInfo.get("name"));
+                holiday.setDate((String) holidayInfo.get("date"));
+                holiday.setDate_year((String) holidayInfo.get("date_year"));
+                holiday.setDate_month((String) holidayInfo.get("date_month"));
+                holiday.setDate_day((String) holidayInfo.get("date_day"));
+
+                holidayList.add(holiday);
+            }
+
+            /*Find the distinct holiday list*/
+            Holiday fistHoliday = holidayList.get(0);
+            distinctHolidayList = new ArrayList<>();
+            distinctHolidayList.add(fistHoliday);
+            System.out.println(holidayList.size());
+
+            for(int i = 0; i< holidayList.size(); i++ ){
+                if(i < holidayList.size() -1){
+                    Holiday distinctHoliday = holidayList.get(i);
+                    if(!distinctHoliday.getDate_day().equals(holidayList.get(i+1).getDate_day())){
+                        distinctHolidayList.add(holidayList.get(i+1));
+                    }
+                }else{
+                    Holiday distinctHoliday = holidayList.get(i);
+                    if(!distinctHoliday.getDate_day().equals(holidayList.get(i).getDate_day())){
+                        distinctHolidayList.add(distinctHoliday);
+                    }
                 }
             }
+        }catch (IOException e){
+            e.printStackTrace();
         }
+
         return distinctHolidayList;
     }
 }
